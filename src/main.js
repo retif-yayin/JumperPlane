@@ -20,9 +20,9 @@ window.onload = function(){
 			autoCenter: Phaser.Scale.CENTER_BOTH,
 		},
 		physics: {
-			default: "arcade",
-			arcade:{
-				gravity: {x: 0, y: 708},
+			default: "matter",
+			matter:{
+				gravity: {x: 0, y: 1},
 				debug: true,
 			}
 		}
