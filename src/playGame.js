@@ -5,13 +5,14 @@ class playGame extends Phaser.Scene{
 	}
 
 	create(){
+		this.highScore = localStorage.getItem(gameOptions.dataName);
 		this.isRunning = true;
 		this.pointedRocks = [];
 
 		this.planesJson = this.cache.json.get('planes');
 		this.rocksJson = this.cache.json.get('rocks');
 
-		this.pointText = this.add.bitmapText(gameOptions.width/2, 50, "main", "0", 72);
+		this.pointText = this.add.bitmapText(gameOptions.width/2-5, 50, "main", "0", 72);
 		this.pointText.depth = 999;
 		this.points = 0;
 
@@ -147,11 +148,46 @@ class playGame extends Phaser.Scene{
 	}
 
 	gameOver(){
-		console.log("gameover");
 		this.isRunning = false;
 		this.matter.world.pause();
 
-		//var menuBG = this.add.image(gameOptions.width/2, gameOptions.height/2+50, "menuBG");
+		var overlay = this.add.rectangle(0,0,gameOptions.width, gameOptions.height, 0x000000, 0.5).setOrigin(0,0);
+		var menuBG = this.add.image(gameOptions.width/2, gameOptions.height/2+50, "menuBG");
+
+		if(this.highScore){
+			if(this.points > this.highScore){
+				this.highScore = this.points;
+				localStorage.setItem(gameOptions.dataName, this.highScore);
+			}
+		} else {
+			this.highScore = this.points;
+			localStorage.setItem(gameOptions.dataName, this.highScore);
+		}
+		var highScoreText = this.add.bitmapText(gameOptions.width/2-110, gameOptions.height/2-50, "main", "HIGH SCORE: "+this.highScore.toString(), 36);
+
+		//Restart Button
+		var restartBg 	= this.add.image(0, 0, "buttonLarge");
+		var restartTxt 	= this.add.bitmapText(-65, -15, "main", "RESTART", 36);
+		this.restartBtn = this.add.container(0, 0, [restartBg, restartTxt]);
+		this.restartBtn.x = gameOptions.width/2;
+		this.restartBtn.y = gameOptions.height/2+50;
+		this.restartBtn.setSize(196, 70);
+		this.restartBtn.setInteractive();
+		this.restartBtn.on("pointerup", function(){
+			this.scene.restart();
+		}.bind(this));
+
+		//Main menu Button
+		var mainmenuBg 	= this.add.image(0, 0, "buttonLarge");
+		var mainmenuTxt = this.add.bitmapText(-80, -15, "main", "MAIN MENU", 36);
+		this.mainmenuBtn = this.add.container(0, 0, [mainmenuBg, mainmenuTxt]);
+		this.mainmenuBtn.x = gameOptions.width/2;
+		this.mainmenuBtn.y = gameOptions.height/2+130;
+		this.mainmenuBtn.setSize(196, 70);
+		this.mainmenuBtn.setInteractive();
+		this.mainmenuBtn.on("pointerup", () => {
+			this.scene.start("MainMenu");
+		});
 	}
 
 	update(time, delta){
