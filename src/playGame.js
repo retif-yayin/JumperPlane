@@ -8,6 +8,7 @@ class playGame extends Phaser.Scene{
 		this.highScore = localStorage.getItem(gameOptions.dataName);
 		this.isRunning = true;
 		this.pointedRocks = [];
+		this.gameSpeed = 1;
 
 		this.planesJson = this.cache.json.get('planes');
 		this.rocksJson = this.cache.json.get('rocks');
@@ -25,10 +26,16 @@ class playGame extends Phaser.Scene{
 
 		this.input.on("pointerdown", this.jumpPlane, this);
 		this.matter.world.on('collisionstart', this.checkCollision, this);
+		this.time.addEvent({
+			delay: 5000,
+			callback: this.increaseGameSpeed,
+			callbackScope: this,
+			loop:true
+		});
 	}
 
 	jumpPlane(){
-		this.plane.applyForce({x:0, y:-0.2});
+		this.plane.setVelocityY(-8);
 	}
 
 	checkCollision(event, bodyA, bodyB){
@@ -40,6 +47,10 @@ class playGame extends Phaser.Scene{
 		){
 			this.gameOver();
 		}
+	}
+
+	increaseGameSpeed(){
+		this.gameSpeed += 0.5;
 	}
 
 	generateBackground(){
@@ -75,18 +86,17 @@ class playGame extends Phaser.Scene{
 
 		var lastLoc = 0;
 
-		for(var i=0; i<6; i++){
+		for(var i=0; i<10; i++){
 			if(lastLoc == 0){
-				var rock = this.matter.add.image((i*308)+gameOptions.width, Math.random()*80,"dirtDown", null, {
+				//308
+				var rock = this.matter.add.image((i*200)+gameOptions.width, Math.random()*80,"dirtDown", null, {
 					shape: this.rocksJson.dirtDown,
-					label: "up",
 				});
 
 				lastLoc = 1;
 			} else {
-				var rock = this.matter.add.image((i*308)+gameOptions.width, (Math.random()*80)+420,"dirtUp", null, {
+				var rock = this.matter.add.image((i*200)+gameOptions.width, (Math.random()*80)+420,"dirtUp", null, {
 					shape: this.rocksJson.dirtUp,
-					label: "down",
 				});
 
 				lastLoc = 0;
@@ -98,7 +108,7 @@ class playGame extends Phaser.Scene{
 
 	backgroundLoop(){
 		this.backgroundPool.forEach(function(background){
-			background.x -= 0.2;
+			background.x -= this.gameSpeed/5;
 			if(background.x == -gameOptions.width){
 				this.backgroundPool = this.backgroundPool.slice(1, this.backgroundPool.length);
 
@@ -112,7 +122,7 @@ class playGame extends Phaser.Scene{
 
 	groundLoop(){
 		this.groundPool.forEach(function(ground){
-			ground.x -= 0.5;
+			ground.x -= this.gameSpeed/2;
 			if(ground.x == -gameOptions.width/2){
 				this.groundPool = this.groundPool.slice(1, this.groundPool.length);
 
@@ -126,7 +136,7 @@ class playGame extends Phaser.Scene{
 
 	rocksLoop(){
 		this.rocksPool.forEach(function(rock){
-			rock.x -= 1;
+			rock.x -= this.gameSpeed;
 
 			if(rock.x < this.plane.x && !this.pointedRocks.includes(rock.id)){
 				this.points++;
@@ -137,14 +147,32 @@ class playGame extends Phaser.Scene{
 			if(rock.x < -108){
 				this.rocksPool = this.rocksPool.slice(1, this.rocksPool.length);
 
+				var space = (Math.random()*130)+130;
 				var lastRockLocation = this.rocksPool[this.rocksPool.length-1].x;
-				rock.x = lastRockLocation+308;
+				rock.x = lastRockLocation+space;
 
 				var index = this.pointedRocks.indexOf(rock.id);
 				this.pointedRocks.splice(index, 1);
 				this.rocksPool.push(rock);
 			}
 		}.bind(this));
+	}
+
+	handlePlaneRotation(){
+		var velocity = this.plane.body.velocity.y;
+		if(velocity > 0){
+			if(this.plane.angle < 25){
+				this.plane.setAngularVelocity(velocity*0.006);
+			} else {
+				this.plane.setAngularVelocity(0);
+			}
+		} else {
+			if(this.plane.angle > -30){
+				this.plane.setAngularVelocity(velocity*0.006);
+			} else {
+				this.plane.setAngularVelocity(0);
+			}
+		}
 	}
 
 	gameOver(){
@@ -163,7 +191,7 @@ class playGame extends Phaser.Scene{
 			this.highScore = this.points;
 			localStorage.setItem(gameOptions.dataName, this.highScore);
 		}
-		var highScoreText = this.add.bitmapText(gameOptions.width/2-110, gameOptions.height/2-50, "main", "HIGH SCORE: "+this.highScore.toString(), 36);
+		var highScoreText = this.add.bitmapText(gameOptions.width/2-110, gameOptions.height/2-50, "main", "HIGH SCORE  "+this.highScore.toString(), 36);
 
 		//Restart Button
 		var restartBg 	= this.add.image(0, 0, "buttonLarge");
@@ -192,6 +220,7 @@ class playGame extends Phaser.Scene{
 
 	update(time, delta){
 		if(this.isRunning){
+			this.handlePlaneRotation();
 			this.backgroundLoop();
 			this.groundLoop();
 			this.rocksLoop();
