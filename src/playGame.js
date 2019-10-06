@@ -50,7 +50,7 @@ class playGame extends Phaser.Scene{
 	}
 
 	increaseGameSpeed(){
-		this.gameSpeed += 0.5;
+		this.gameSpeed += 0.2;
 	}
 
 	generateBackground(){
@@ -65,7 +65,7 @@ class playGame extends Phaser.Scene{
 	generateGround(){
 		this.groundPool = [];
 
-		for(var i=0; i<2; i++){
+		for(var i=0; i<3; i++){
 			var ground = this.add.image(gameOptions.width/2+(i*808),444,"grounddirt");
 			ground.alpha = 0.5;
 			this.groundPool.push(ground);
@@ -123,7 +123,7 @@ class playGame extends Phaser.Scene{
 	groundLoop(){
 		this.groundPool.forEach(function(ground){
 			ground.x -= this.gameSpeed/2;
-			if(ground.x == -gameOptions.width/2){
+			if(ground.x < -gameOptions.width/2){
 				this.groundPool = this.groundPool.slice(1, this.groundPool.length);
 
 				var lastGroundLocation = this.groundPool[this.groundPool.length-1].x;
