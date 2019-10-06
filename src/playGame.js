@@ -6,9 +6,14 @@ class playGame extends Phaser.Scene{
 
 	create(){
 		this.isRunning = true;
+		this.pointedRocks = [];
 
 		this.planesJson = this.cache.json.get('planes');
 		this.rocksJson = this.cache.json.get('rocks');
+
+		this.pointText = this.add.bitmapText(gameOptions.width/2, 50, "main", "0", 72);
+		this.pointText.depth = 999;
+		this.points = 0;
 
 		this.generateBackground();
 		this.generateGround();
@@ -16,11 +21,24 @@ class playGame extends Phaser.Scene{
 		this.generateRocks();
 		
 		this.matter.world.setBounds(0,0,gameOptions.width, gameOptions.height);
+
 		this.input.on("pointerdown", this.jumpPlane, this);
+		this.matter.world.on('collisionstart', this.checkCollision, this);
 	}
 
 	jumpPlane(){
 		this.plane.applyForce({x:0, y:-0.2});
+	}
+
+	checkCollision(event, bodyA, bodyB){
+		if(
+			(bodyA.label == "red" && bodyB.label == "up") ||
+			(bodyA.label == "red" && bodyB.label == "down") ||
+			(bodyA.label == "up" && bodyB.label == "red") ||
+			(bodyA.label == "down" && bodyB.label == "red")
+		){
+			this.gameOver();
+		}
 	}
 
 	generateBackground(){
@@ -58,14 +76,16 @@ class playGame extends Phaser.Scene{
 
 		for(var i=0; i<6; i++){
 			if(lastLoc == 0){
-				var rock = this.matter.add.image(i*308, 80,"dirtDown", null, {
+				var rock = this.matter.add.image((i*308)+gameOptions.width, Math.random()*80,"dirtDown", null, {
 					shape: this.rocksJson.dirtDown,
+					label: "up",
 				});
 
 				lastLoc = 1;
 			} else {
-				var rock = this.matter.add.image(i*308, 420,"dirtUp", null, {
+				var rock = this.matter.add.image((i*308)+gameOptions.width, (Math.random()*80)+420,"dirtUp", null, {
 					shape: this.rocksJson.dirtUp,
+					label: "down",
 				});
 
 				lastLoc = 0;
@@ -106,15 +126,32 @@ class playGame extends Phaser.Scene{
 	rocksLoop(){
 		this.rocksPool.forEach(function(rock){
 			rock.x -= 1;
+
+			if(rock.x < this.plane.x && !this.pointedRocks.includes(rock.id)){
+				this.points++;
+				this.pointText.text = this.points.toString();
+				this.pointedRocks.push(rock.id);
+			}
+
 			if(rock.x < -108){
 				this.rocksPool = this.rocksPool.slice(1, this.rocksPool.length);
 
 				var lastRockLocation = this.rocksPool[this.rocksPool.length-1].x;
 				rock.x = lastRockLocation+308;
 
+				var index = this.pointedRocks.indexOf(rock.id);
+				this.pointedRocks.splice(index, 1);
 				this.rocksPool.push(rock);
 			}
 		}.bind(this));
+	}
+
+	gameOver(){
+		console.log("gameover");
+		this.isRunning = false;
+		this.matter.world.pause();
+
+		//var menuBG = this.add.image(gameOptions.width/2, gameOptions.height/2+50, "menuBG");
 	}
 
 	update(time, delta){

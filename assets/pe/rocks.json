@@ -2,7 +2,7 @@
 	"generator_info": "Shape definitions generated with PhysicsEditor. Visit https://www.codeandweb.com/physicseditor",
 	"dirtUp": {
 		"type": "fromPhysicsEditor",
-		"label": "dirtUp",
+		"label": "up",
 		"isStatic": true,
 		"density": 0.10000000149011612,
 		"restitution": 0,
@@ -16,7 +16,7 @@
 		},
 		"fixtures": [
 			{
-				"label": "",
+				"label": "up",
 				"isSensor": false,
 				"vertices": [
 					[ { "x":28, "y":129 }, { "x":27, "y":132 }, { "x":31, "y":128 } ],
@@ -37,7 +37,7 @@
 	},
 	"dirtDown": {
 		"type": "fromPhysicsEditor",
-		"label": "dirtDown",
+		"label": "down",
 		"isStatic": true,
 		"density": 0.1,
 		"restitution": 0,
@@ -51,7 +51,7 @@
 		},
 		"fixtures": [
 			{
-				"label": "",
+				"label": "down",
 				"isSensor": false,
 				"vertices": [
 					[ { "x":70, "y":239 }, { "x":73, "y":223 }, { "x":81, "y":142 }, { "x":37, "y":118 }, { "x":61, "y":238 } ],
