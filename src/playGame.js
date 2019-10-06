@@ -89,13 +89,13 @@ class playGame extends Phaser.Scene{
 		for(var i=0; i<10; i++){
 			if(lastLoc == 0){
 				//308
-				var rock = this.matter.add.image((i*200)+gameOptions.width, Math.random()*80,"dirtDown", null, {
+				var rock = this.matter.add.image((i*200)+(gameOptions.width-250), Math.random()*80,"dirtDown", null, {
 					shape: this.rocksJson.dirtDown,
 				});
 
 				lastLoc = 1;
 			} else {
-				var rock = this.matter.add.image((i*200)+gameOptions.width, (Math.random()*80)+420,"dirtUp", null, {
+				var rock = this.matter.add.image((i*200)+(gameOptions.width-250), (Math.random()*80)+420,"dirtUp", null, {
 					shape: this.rocksJson.dirtUp,
 				});
 
