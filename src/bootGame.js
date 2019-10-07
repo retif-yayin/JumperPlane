@@ -17,6 +17,8 @@ class bootGame extends Phaser.Scene{
 		this.load.image("tapTick", "assets/png/ui/tapTick.png");
 
 		this.load.image("background", "assets/png/background.png");
+		this.load.image("puffLarge", "assets/png/puffLarge.png");
+		this.load.image("puffSmall", "assets/png/puffSmall.png");
 
 		this.load.image("redPlane", "assets/png/planes/planeRed1.png");
 		this.load.json("planes", "assets/pe/planes.json");

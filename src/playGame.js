@@ -26,6 +26,7 @@ class playGame extends Phaser.Scene{
 		this.points = 0;
 
 		this.generateBackground();
+		this.generateClouds();
 		this.generateGround();
 		this.generatePlane();
 		this.generateRocks();
@@ -62,12 +63,14 @@ class playGame extends Phaser.Scene{
 
 		this.input.on("pointerdown", this.jumpPlane, this);
 		this.matter.world.on('collisionstart', this.checkCollision, this);
-		this.time.addEvent({
+
+		this.increaseSpeedTimer = this.time.addEvent({
 			delay: 5000,
 			callback: this.increaseGameSpeed,
 			callbackScope: this,
 			loop:true
 		});
+		this.increaseSpeedTimer.paused = true;
 	}
 
 	jumpPlane(){
@@ -81,6 +84,7 @@ class playGame extends Phaser.Scene{
 			this.isRunning = true;
 			this.firstStart = false;
 			this.jumpPlane();
+			this.increaseSpeedTimer.paused = false;
 
 			this.tweens.add({
 				duration:200,
@@ -122,11 +126,30 @@ class playGame extends Phaser.Scene{
 		}
 	}
 
+	generateClouds(){
+		this.cloudPool = [];
+		
+		//Smallest: 25,25
+		//Largest: 775, 150
+		for(var i=0; i<8; i++){
+			var isLarge = Math.round(Math.random());
+			var xLocation = (Math.random()*750)+25;
+			var yLocation = (Math.random()*125)+25;
+			if(isLarge){
+				var cloud = this.add.image(xLocation,yLocation,"puffLarge");
+			} else {
+				var cloud = this.add.image(xLocation,yLocation,"puffSmall");
+			}
+
+			this.cloudPool.push(cloud);
+		}
+	}
+
 	generateGround(){
 		this.groundPool = [];
 
 		for(var i=0; i<3; i++){
-			var ground = this.add.image(gameOptions.width/2+(i*808),444,"grounddirt");
+			var ground = this.add.image(gameOptions.width/2+(i*800),444,"grounddirt");
 			ground.alpha = 0.5;
 			this.groundPool.push(ground);
 		}
@@ -173,9 +196,24 @@ class playGame extends Phaser.Scene{
 				this.backgroundPool = this.backgroundPool.slice(1, this.backgroundPool.length);
 
 				var lastBackgroundLocation = this.backgroundPool[this.backgroundPool.length-1].x;
-				background.x = lastBackgroundLocation+807;
+				background.x = lastBackgroundLocation+800;
 
 				this.backgroundPool.push(background);
+			}
+		}.bind(this));
+	}
+
+	cloudLoop(){
+		this.cloudPool.forEach(function(cloud){
+			cloud.x -= this.gameSpeed/4;
+			if(cloud.x < -30){
+				var isLarge = Math.round(Math.random());
+				var xLocation = (Math.random()*750)+25;
+				var yLocation = (Math.random()*125)+25;
+
+				cloud.texture = isLarge ? "puffLarge" : "puffSmall";
+				cloud.x = xLocation + gameOptions.width;
+				cloud.y = yLocation;
 			}
 		}.bind(this));
 	}
@@ -183,12 +221,13 @@ class playGame extends Phaser.Scene{
 	groundLoop(){
 		this.groundPool.forEach(function(ground){
 			ground.x -= this.gameSpeed/2;
-			if(ground.x < -gameOptions.width/2){
+			if(ground.x < -gameOptions.width){
 				this.groundPool = this.groundPool.slice(1, this.groundPool.length);
 
 				var lastGroundLocation = this.groundPool[this.groundPool.length-1].x;
-				ground.x = lastGroundLocation+807;
-
+				ground.x = lastGroundLocation+800;
+				console.log(lastGroundLocation);
+				console.log(ground.x);
 				this.groundPool.push(ground);
 			}
 		}.bind(this));
@@ -287,6 +326,7 @@ class playGame extends Phaser.Scene{
 		if(this.isRunning){
 			this.handlePlaneRotation();
 			this.backgroundLoop();
+			this.cloudLoop();
 			this.groundLoop();
 			this.rocksLoop();
 		}
