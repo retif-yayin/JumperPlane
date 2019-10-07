@@ -11,6 +11,10 @@ class bootGame extends Phaser.Scene{
 		//IMAGES / TEXTURES
 		this.load.image("menuBG", "assets/png/ui/UIbg.png");
 		this.load.image("buttonLarge", "assets/png/ui/buttonLarge.png");
+		this.load.image("tapLeft", "assets/png/ui/tapLeft.png");
+		this.load.image("tapRight", "assets/png/ui/tapRight.png");
+		this.load.image("tap", "assets/png/ui/tap.png");
+		this.load.image("tapTick", "assets/png/ui/tapTick.png");
 
 		this.load.image("background", "assets/png/background.png");
 
@@ -47,7 +51,7 @@ class bootGame extends Phaser.Scene{
 	}
 
 	create(){
-		this.scene.start("MainMenu");
+		this.scene.start("PlayGame");
 	}
 
 }

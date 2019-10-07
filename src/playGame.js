@@ -6,7 +6,9 @@ class playGame extends Phaser.Scene{
 
 	create(){
 		this.highScore = localStorage.getItem(gameOptions.dataName);
-		this.isRunning = true;
+		this.isRunning = false;
+		this.firstStart = true;
+		this.matter.world.pause();
 		this.pointedRocks = [];
 		this.gameSpeed = 2;
 
@@ -27,6 +29,34 @@ class playGame extends Phaser.Scene{
 		this.generateGround();
 		this.generatePlane();
 		this.generateRocks();
+
+		this.tapUI = this.add.container();
+		var tapRight = this.add.image(450, gameOptions.height/2+80, "tapRight");
+		var tapLeft = this.add.image(650, gameOptions.height/2+80, "tapLeft");
+		var tapIcon = this.add.sprite(550, gameOptions.height/2+80, "tapTick");
+		this.tapUI.add([tapRight, tapLeft, tapIcon]);
+
+		this.tweens.add({
+			duration:500,
+			targets: tapRight,
+			x: '-=25',
+			repeat:-1,
+			yoyo: true,
+		});
+		this.tweens.add({
+			duration:500,
+			targets: tapLeft,
+			x: '+=25',
+			repeat:-1,
+			yoyo: true,
+		});
+		this.tweens.add({
+			duration:300,
+			targets: tapIcon,
+			scale: 1.2,
+			repeat:-1,
+			yoyo: true,
+		});
 		
 		this.matter.world.setBounds(0,0,gameOptions.width, gameOptions.height);
 
@@ -44,6 +74,25 @@ class playGame extends Phaser.Scene{
 		if(this.isRunning){
 			this.plane.setVelocityY(-8);
 			this.wing.play();
+		}
+
+		if(this.firstStart){
+			this.matter.world.resume();
+			this.isRunning = true;
+			this.firstStart = false;
+			this.jumpPlane();
+
+			this.tweens.add({
+				duration:200,
+				targets: this.tapUI,
+				alpha: 0,
+				repeat:0,
+				yoyo: false,
+				onCompleteScope: this,
+				onComplete: function(){
+					this.tapUI.destroy();
+				},
+			});
 		}
 	}
 
@@ -120,7 +169,7 @@ class playGame extends Phaser.Scene{
 	backgroundLoop(){
 		this.backgroundPool.forEach(function(background){
 			background.x -= this.gameSpeed/5;
-			if(background.x == -gameOptions.width){
+			if(background.x < -gameOptions.width){
 				this.backgroundPool = this.backgroundPool.slice(1, this.backgroundPool.length);
 
 				var lastBackgroundLocation = this.backgroundPool[this.backgroundPool.length-1].x;
