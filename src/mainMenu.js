@@ -5,6 +5,8 @@ class mainMenu extends Phaser.Scene{
 	}
 
 	create(){
+		this.swooshing = this.sound.add("swooshing");
+		
 		var titleTxt = this.add.bitmapText(gameOptions.width/2 - 240, gameOptions.height/2-200, "main", "JUMPER PLANE");
 
 		var menuBG = this.add.image(gameOptions.width/2, gameOptions.height/2+50, "menuBG");
@@ -18,6 +20,7 @@ class mainMenu extends Phaser.Scene{
 		this.playBtn.setSize(playBg.width, playBg.height);
 		this.playBtn.setInteractive();
 		this.playBtn.on("pointerup", () => {
+			this.swooshing.play();
 			this.scene.start("PlayGame");
 		});
 

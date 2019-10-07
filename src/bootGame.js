@@ -5,8 +5,10 @@ class bootGame extends Phaser.Scene{
 	}
 
 	preload(){
+		//FONT
 		this.load.bitmapFont("main", "assets/png/fonts/main.png", "assets/png/fonts/main.fnt");
 
+		//IMAGES / TEXTURES
 		this.load.image("menuBG", "assets/png/ui/UIbg.png");
 		this.load.image("buttonLarge", "assets/png/ui/buttonLarge.png");
 
@@ -20,10 +22,32 @@ class bootGame extends Phaser.Scene{
 		this.load.json("rocks", "assets/pe/rocks.json");
 
 		this.load.image("grounddirt", "assets/png/groundDirt.png");
+
+		//SOUNDS
+		this.load.audio("die", [
+			"assets/sounds/mp3/die.mp3",
+			"assets/sounds/ogg/die.ogg",
+		]);
+		this.load.audio("hit", [
+			"assets/sounds/mp3/hit.mp3",
+			"assets/sounds/ogg/hit.ogg",
+		]);
+		this.load.audio("point", [
+			"assets/sounds/mp3/point.mp3",
+			"assets/sounds/ogg/point.ogg",
+		]);
+		this.load.audio("swooshing", [
+			"assets/sounds/mp3/swooshing.mp3",
+			"assets/sounds/ogg/swooshing.ogg",
+		]);
+		this.load.audio("wing", [
+			"assets/sounds/mp3/wing.mp3",
+			"assets/sounds/ogg/wing.ogg",
+		]);
 	}
 
 	create(){
-		this.scene.start("PlayGame");
+		this.scene.start("MainMenu");
 	}
 
 }

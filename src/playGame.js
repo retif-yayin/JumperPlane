@@ -8,10 +8,16 @@ class playGame extends Phaser.Scene{
 		this.highScore = localStorage.getItem(gameOptions.dataName);
 		this.isRunning = true;
 		this.pointedRocks = [];
-		this.gameSpeed = 1;
+		this.gameSpeed = 2;
 
 		this.planesJson = this.cache.json.get('planes');
 		this.rocksJson = this.cache.json.get('rocks');
+
+		this.die = this.sound.add("die");
+		this.hit = this.sound.add("hit");
+		this.point = this.sound.add("point");
+		this.swooshing = this.sound.add("swooshing");
+		this.wing = this.sound.add("wing");
 
 		this.pointText = this.add.bitmapText(gameOptions.width/2-5, 50, "main", "0", 72);
 		this.pointText.depth = 999;
@@ -35,7 +41,10 @@ class playGame extends Phaser.Scene{
 	}
 
 	jumpPlane(){
-		this.plane.setVelocityY(-8);
+		if(this.isRunning){
+			this.plane.setVelocityY(-8);
+			this.wing.play();
+		}
 	}
 
 	checkCollision(event, bodyA, bodyB){
@@ -43,7 +52,9 @@ class playGame extends Phaser.Scene{
 			(bodyA.label == "red" && bodyB.label == "up") ||
 			(bodyA.label == "red" && bodyB.label == "down") ||
 			(bodyA.label == "up" && bodyB.label == "red") ||
-			(bodyA.label == "down" && bodyB.label == "red")
+			(bodyA.label == "down" && bodyB.label == "red") ||
+			(bodyA.label == "red" && bodyB.label == "Rectangle Body") ||
+			(bodyA.label == "Rectangle Body" && bodyB.label == "red")
 		){
 			this.gameOver();
 		}
@@ -56,7 +67,7 @@ class playGame extends Phaser.Scene{
 	generateBackground(){
 		this.backgroundPool = [];
 
-		for(var i=0; i<2; i++){
+		for(var i=0; i<3; i++){
 			var background = this.add.image(i*gameOptions.width,0,"background").setOrigin(0,0);
 			this.backgroundPool.push(background);
 		}
@@ -89,13 +100,13 @@ class playGame extends Phaser.Scene{
 		for(var i=0; i<10; i++){
 			if(lastLoc == 0){
 				//308
-				var rock = this.matter.add.image((i*200)+(gameOptions.width-250), Math.random()*80,"dirtDown", null, {
+				var rock = this.matter.add.image((i*180)+(gameOptions.width-250), Math.random()*80,"dirtDown", null, {
 					shape: this.rocksJson.dirtDown,
 				});
 
 				lastLoc = 1;
 			} else {
-				var rock = this.matter.add.image((i*200)+(gameOptions.width-250), (Math.random()*80)+420,"dirtUp", null, {
+				var rock = this.matter.add.image((i*180)+(gameOptions.width-250), (Math.random()*80)+420,"dirtUp", null, {
 					shape: this.rocksJson.dirtUp,
 				});
 
@@ -140,6 +151,7 @@ class playGame extends Phaser.Scene{
 
 			if(rock.x < this.plane.x && !this.pointedRocks.includes(rock.id)){
 				this.points++;
+				this.point.play();
 				this.pointText.text = this.points.toString();
 				this.pointedRocks.push(rock.id);
 			}
@@ -178,6 +190,8 @@ class playGame extends Phaser.Scene{
 	gameOver(){
 		this.isRunning = false;
 		this.matter.world.pause();
+		this.hit.play();
+		//this.die.play();
 
 		var overlay = this.add.rectangle(0,0,gameOptions.width, gameOptions.height, 0x000000, 0.5).setOrigin(0,0);
 		var menuBG = this.add.image(gameOptions.width/2, gameOptions.height/2+50, "menuBG");
@@ -202,6 +216,7 @@ class playGame extends Phaser.Scene{
 		this.restartBtn.setSize(196, 70);
 		this.restartBtn.setInteractive();
 		this.restartBtn.on("pointerup", function(){
+			this.swooshing.play();
 			this.scene.restart();
 		}.bind(this));
 
@@ -214,6 +229,7 @@ class playGame extends Phaser.Scene{
 		this.mainmenuBtn.setSize(196, 70);
 		this.mainmenuBtn.setInteractive();
 		this.mainmenuBtn.on("pointerup", () => {
+			this.swooshing.play();
 			this.scene.start("MainMenu");
 		});
 	}
