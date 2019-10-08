@@ -28,5 +28,8 @@ window.onload = function(){
 		}
 	});
 
+	//setInterval(function(){ console.log(game.loop.actualFps); }, 100);
+	
+
 	window.focus();
 }

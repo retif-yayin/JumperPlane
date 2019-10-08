@@ -81,6 +81,14 @@ class playGame extends Phaser.Scene{
 			loop:true
 		});
 		this.increaseSpeedTimer.paused = true;
+
+		this.checkFinished = true;
+		this.checkPointsTimer = this.time.addEvent({
+			delay: 100,
+			callback: this.checkPoints,
+			callbackScope: this,
+			loop: true
+		});
 	}
 
 	jumpPlane(){
@@ -194,7 +202,6 @@ class playGame extends Phaser.Scene{
 
 				lastLoc = 0;
 			}
-
 			this.rocksPool.push(rock);
 		}
 	}
@@ -246,13 +253,6 @@ class playGame extends Phaser.Scene{
 		this.rocksPool.forEach(function(rock){
 			rock.x -= this.gameSpeed;
 
-			if(rock.x < this.plane.x && !this.pointedRocks.includes(rock.id)){
-				this.points++;
-				this.point.play();
-				this.pointText.text = this.points.toString();
-				this.pointedRocks.push(rock.id);
-			}
-
 			if(rock.x < -108){
 				this.rocksPool = this.rocksPool.slice(1, this.rocksPool.length);
 
@@ -281,6 +281,26 @@ class playGame extends Phaser.Scene{
 			} else {
 				this.plane.setAngularVelocity(0);
 			}
+		}
+	}
+
+	checkPoints(){
+		if(this.isRunning && this.checkFinished){
+			this.checkFinished = false;
+			this.rocksPool.forEach(function(rock){
+				if(rock.x < 200 && !this.pointedRocks.includes(rock.body.id)){
+					this.points++;
+					this.pointText.text = this.points.toString();
+					this.pointedRocks.push(rock.body.id);
+					this.point.play();
+					console.log(rock.x);
+					console.log(rock.body.id);
+					console.log(this.pointedRocks);
+				}
+				if(rock.body.id == 138){
+					this.checkFinished = true;
+				}
+			}.bind(this));
 		}
 	}
 

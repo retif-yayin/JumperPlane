@@ -7,10 +7,10 @@ class mainMenu extends Phaser.Scene{
 	create(){
 		this.swooshing = this.sound.add("swooshing");
 		this.mainMusic = this.sound.add("main");
-		// this.mainMusic.setLoop(false);
-		// this.mainMusic.stop();
-		// this.mainMusic.play();
-		// this.mainMusic.setLoop(true);
+		this.mainMusic.setLoop(false);
+		this.mainMusic.stop();
+		this.mainMusic.play();
+		this.mainMusic.setLoop(true);
 		
 		var background = this.add.image(0,0,"background").setOrigin(0,0);
 
