@@ -21,7 +21,17 @@ class playGame extends Phaser.Scene{
 		this.swooshing = this.sound.add("swooshing");
 		this.wing = this.sound.add("wing");
 
-		this.pointText = this.add.bitmapText(gameOptions.width/2-5, 50, "main", "0", 72);
+		this.pointText = this.add.text(gameOptions.width/2-15, 50, "0", {
+			fontFamily: 'font1',
+			fontSize: 72,
+			stroke: '#000',
+			strokeThickness:2,
+			shadow: {
+				offsetY:3,
+				blur: 3,
+				fill: true
+			}
+		});
 		this.pointText.depth = 999;
 		this.points = 0;
 
@@ -149,7 +159,7 @@ class playGame extends Phaser.Scene{
 		this.groundPool = [];
 
 		for(var i=0; i<3; i++){
-			var ground = this.add.image(gameOptions.width/2+(i*800),444,"grounddirt");
+			var ground = this.add.image(gameOptions.width/2+(i*808),444,"grounddirt");
 			ground.alpha = 0.5;
 			this.groundPool.push(ground);
 		}
@@ -220,14 +230,13 @@ class playGame extends Phaser.Scene{
 
 	groundLoop(){
 		this.groundPool.forEach(function(ground){
-			ground.x -= this.gameSpeed/2;
-			if(ground.x < -gameOptions.width){
+			//There is a bug, it should be based on gamespeed
+			ground.x -= 1; //this.gameSpeed/2;
+			if(ground.x < -gameOptions.width/2){
 				this.groundPool = this.groundPool.slice(1, this.groundPool.length);
 
 				var lastGroundLocation = this.groundPool[this.groundPool.length-1].x;
-				ground.x = lastGroundLocation+800;
-				console.log(lastGroundLocation);
-				console.log(ground.x);
+				ground.x = lastGroundLocation+807;
 				this.groundPool.push(ground);
 			}
 		}.bind(this));
@@ -293,11 +302,25 @@ class playGame extends Phaser.Scene{
 			this.highScore = this.points;
 			localStorage.setItem(gameOptions.dataName, this.highScore);
 		}
-		var highScoreText = this.add.bitmapText(gameOptions.width/2-110, gameOptions.height/2-50, "main", "HIGH SCORE  "+this.highScore.toString(), 36);
+		var highScoreText = this.add.text(gameOptions.width/2-110, gameOptions.height/2-50, "HIGH SCORE  "+this.highScore.toString(), {
+			fontFamily: 'font1',
+			fontSize: 38,
+			shadow: {
+				offsetY:1,
+				blur: 1,
+				fill: true
+			}
+		});
 
+		var fontStyles = {
+			fontFamily: 'font1',
+			fontSize: 35,
+			stroke: '#000',
+			strokeThickness: 1,
+		};
 		//Restart Button
 		var restartBg 	= this.add.image(0, 0, "buttonLarge");
-		var restartTxt 	= this.add.bitmapText(-65, -15, "main", "RESTART", 36);
+		var restartTxt 	= this.add.text(-60, -22, "RESTART", fontStyles);
 		this.restartBtn = this.add.container(0, 0, [restartBg, restartTxt]);
 		this.restartBtn.x = gameOptions.width/2;
 		this.restartBtn.y = gameOptions.height/2+50;
@@ -310,7 +333,7 @@ class playGame extends Phaser.Scene{
 
 		//Main menu Button
 		var mainmenuBg 	= this.add.image(0, 0, "buttonLarge");
-		var mainmenuTxt = this.add.bitmapText(-80, -15, "main", "MAIN MENU", 36);
+		var mainmenuTxt = this.add.text(-76, -22, "MAIN MENU", fontStyles);
 		this.mainmenuBtn = this.add.container(0, 0, [mainmenuBg, mainmenuTxt]);
 		this.mainmenuBtn.x = gameOptions.width/2;
 		this.mainmenuBtn.y = gameOptions.height/2+130;

@@ -6,14 +6,45 @@ class mainMenu extends Phaser.Scene{
 
 	create(){
 		this.swooshing = this.sound.add("swooshing");
+		this.mainMusic = this.sound.add("main");
+		// this.mainMusic.setLoop(false);
+		// this.mainMusic.stop();
+		// this.mainMusic.play();
+		// this.mainMusic.setLoop(true);
 		
-		var titleTxt = this.add.bitmapText(gameOptions.width/2 - 240, gameOptions.height/2-200, "main", "JUMPER PLANE");
+		var background = this.add.image(0,0,"background").setOrigin(0,0);
+
+		var titleTxt = this.add.text(gameOptions.width/2 - 300, gameOptions.height/2-210, "JUMPER PLANE", {
+			fontFamily: 'font1',
+			fontSize: 102,
+			stroke: '#000',
+			strokeThickness: 1,
+			shadow: {
+				offsetY:5,
+				blur: 5,
+				stroke: true
+			}
+		});
+
+		var versionTxt = this.add.text(gameOptions.width/2 + 105, gameOptions.height/2-120, "CURRENT VERSION 1.0", {
+			fontFamily: 'font1',
+			color: '#ff4c4c',
+			fontSize: 22,
+		});
+		versionTxt.alpha = 0.8;
 
 		var menuBG = this.add.image(gameOptions.width/2, gameOptions.height/2+50, "menuBG");
 
+		var fontStyles = {
+			fontFamily: 'font1',
+			fontSize: 35,
+			stroke: '#000',
+			strokeThickness: 1,
+		};
+
 		//Play Game Button
 		var playBg 		= this.add.image(0, 0, "buttonLarge");
-		var playTxt 	= this.add.bitmapText(-85, -15, "main", "PLAY GAME", 36);
+		var playTxt 	= this.add.text(-75, -20, "PLAY GAME", fontStyles);
 		this.playBtn 	= this.add.container(0, 0, [playBg, playTxt]);
 		this.playBtn.x  = gameOptions.width/2;
 		this.playBtn.y 	= gameOptions.height/2-30;
@@ -26,7 +57,7 @@ class mainMenu extends Phaser.Scene{
 
 		//Options Button
 		var optionsBg 	= this.add.image(0, 0, "buttonLarge");
-		var optionsTxt 	= this.add.bitmapText(-65, -15, "main", "OPTIONS", 36);
+		var optionsTxt 	= this.add.text(-55, -20, "OPTIONS", fontStyles);
 		this.optionsBtn = this.add.container(0, 0, [optionsBg, optionsTxt]);
 		this.optionsBtn.x = gameOptions.width/2;
 		this.optionsBtn.y = gameOptions.height/2+50;
@@ -38,7 +69,7 @@ class mainMenu extends Phaser.Scene{
 
 		//Credits Button
 		var creditsBg 	= this.add.image(0, 0, "buttonLarge");
-		var creditsTxt 	= this.add.bitmapText(-65, -15, "main", "CREDITS", 36);
+		var creditsTxt 	= this.add.text(-55, -22, "CREDITS", fontStyles);
 		this.creditsBtn = this.add.container(0, 0, [creditsBg, creditsTxt]);
 		this.creditsBtn.x = gameOptions.width/2;
 		this.creditsBtn.y = gameOptions.height/2+130;

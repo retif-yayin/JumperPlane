@@ -30,6 +30,10 @@ class bootGame extends Phaser.Scene{
 		this.load.image("grounddirt", "assets/png/groundDirt.png");
 
 		//SOUNDS
+		this.load.audio("main", [
+			"assets/sounds/mp3/anachronist.mp3",
+			"assets/sounds/ogg/anachronist.ogg",
+		]);
 		this.load.audio("die", [
 			"assets/sounds/mp3/die.mp3",
 			"assets/sounds/ogg/die.ogg",
@@ -53,7 +57,7 @@ class bootGame extends Phaser.Scene{
 	}
 
 	create(){
-		this.scene.start("PlayGame");
+		this.scene.start("MainMenu");
 	}
 
 }

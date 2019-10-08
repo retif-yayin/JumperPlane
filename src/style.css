@@ -1,4 +1,18 @@
+@font-face {
+	font-family: font1;
+	src: url('../assets/font/Teko/Teko-Bold.ttf');
+	font-weight:400;
+	font-weight:normal;
+}
+
 body{
 	margin: 0;
 	padding: 0;
+}
+
+#fontDiv{
+	font-family: font1;
+	position: absolute;
+	left: -1000px;
+	visibility: hidden;
 }
