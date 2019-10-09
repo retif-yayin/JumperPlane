@@ -7,8 +7,6 @@ class mainMenu extends Phaser.Scene{
 	create(){
 		this.swooshing = this.sound.add("swooshing");
 		this.mainMusic = this.sound.add("main");
-		this.mainMusic.setLoop(false);
-		this.mainMusic.stop();
 		this.mainMusic.play();
 		this.mainMusic.setLoop(true);
 		
@@ -52,6 +50,8 @@ class mainMenu extends Phaser.Scene{
 		this.playBtn.setInteractive();
 		this.playBtn.on("pointerup", () => {
 			this.swooshing.play();
+			this.mainMusic.setLoop(false);
+			this.mainMusic.stop();
 			this.scene.start("PlayGame");
 		});
 

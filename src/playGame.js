@@ -10,7 +10,7 @@ class playGame extends Phaser.Scene{
 		this.firstStart = true;
 		this.matter.world.pause();
 		this.pointedRocks = [];
-		this.gameSpeed = 2;
+		this.gameSpeed = 120;
 
 		this.planesJson = this.cache.json.get('planes');
 		this.rocksJson = this.cache.json.get('rocks');
@@ -124,7 +124,7 @@ class playGame extends Phaser.Scene{
 	}
 
 	increaseGameSpeed(){
-		this.gameSpeed += 0.2;
+		this.gameSpeed += 10;
 	}
 
 	generateBackground(){
@@ -159,10 +159,14 @@ class playGame extends Phaser.Scene{
 		this.groundPool = [];
 
 		for(var i=0; i<3; i++){
-			var ground = this.add.image(gameOptions.width/2+(i*808),444,"grounddirt");
+			var ground = this.add.image(gameOptions.width/2+(i*800),444,"grounddirt");	
+			
+			ground.order = i;
 			ground.alpha = 0.5;
 			this.groundPool.push(ground);
 		}
+
+		//this.groundPool.pop();
 	}
 
 	generatePlane(){
@@ -194,27 +198,24 @@ class playGame extends Phaser.Scene{
 
 				lastLoc = 0;
 			}
+			rock.passed = false;
 			this.rocksPool.push(rock);
 		}
 	}
 
-	backgroundLoop(){
+	backgroundLoop(delta){
 		this.backgroundPool.forEach(function(background){
-			background.x -= this.gameSpeed/5;
+			background.x -= (this.gameSpeed*delta/1000)/5;
 			if(background.x < -gameOptions.width){
-				this.backgroundPool = this.backgroundPool.slice(1, this.backgroundPool.length);
-
-				var lastBackgroundLocation = this.backgroundPool[this.backgroundPool.length-1].x;
+				var lastBackgroundLocation = Math.max.apply(Math, this.backgroundPool.map(function(o) { return o.x; }));
 				background.x = lastBackgroundLocation+800;
-
-				this.backgroundPool.push(background);
 			}
 		}.bind(this));
 	}
 
-	cloudLoop(){
+	cloudLoop(delta){
 		this.cloudPool.forEach(function(cloud){
-			cloud.x -= this.gameSpeed/4;
+			cloud.x -= (this.gameSpeed*delta/1000)/4;
 			if(cloud.x < -30){
 				var isLarge = Math.round(Math.random());
 				var xLocation = (Math.random()*750)+25;
@@ -227,43 +228,36 @@ class playGame extends Phaser.Scene{
 		}.bind(this));
 	}
 
-	groundLoop(){
+	groundLoop(delta){
 		this.groundPool.forEach(function(ground){
-			//There is a bug, it should be based on gamespeed
-			ground.x -= 1; //this.gameSpeed/2;
+			ground.x -= (this.gameSpeed*delta/1000)/2;
 			if(ground.x < -gameOptions.width/2){
-				this.groundPool = this.groundPool.slice(1, this.groundPool.length);
-
-				var lastGroundLocation = this.groundPool[this.groundPool.length-1].x;
-				ground.x = lastGroundLocation+807;
-				this.groundPool.push(ground);
+				var lastGroundLocation = Math.max.apply(Math, this.groundPool.map(function(o) { return o.x; }));
+				ground.x = lastGroundLocation+800;
+				if(ground.order == 0){
+					ground.x -= (this.gameSpeed*delta/1000)/2;
+				}
 			}
 		}.bind(this));
 	}
 
-	rocksLoop(){
+	rocksLoop(delta){
 		this.rocksPool.forEach(function(rock){
-			rock.x -= this.gameSpeed;
+			rock.x -= (this.gameSpeed*delta/1000);
 
-			if(rock.x < 200 && !this.pointedRocks.includes(rock.body.id)){
+			if(rock.x < 150 && !rock.passed){
 				this.points++;
 				this.pointText.text = this.points.toString();
-				this.pointedRocks.push(rock.body.id);
 				this.point.play();
-				console.log(rock.x);
-				console.log(rock.body.id);
-				console.log(this.pointedRocks);
-			}
-
-			if(rock.x < -108){
+				rock.passed = true;
+			}else if(rock.x < -108){
 				this.rocksPool = this.rocksPool.slice(1, this.rocksPool.length);
 
 				var space = (Math.random()*130)+130;
 				var lastRockLocation = this.rocksPool[this.rocksPool.length-1].x;
 				rock.x = lastRockLocation+space;
 
-				var index = this.pointedRocks.indexOf(rock.id);
-				this.pointedRocks.splice(index, 1);
+				rock.passed = false;
 				this.rocksPool.push(rock);
 			}
 		}.bind(this));
@@ -350,10 +344,10 @@ class playGame extends Phaser.Scene{
 	update(time, delta){
 		if(this.isRunning){
 			this.handlePlaneRotation();
-			this.backgroundLoop();
-			this.cloudLoop();
-			this.groundLoop();
-			this.rocksLoop();
+			this.backgroundLoop(delta);
+			this.cloudLoop(delta);
+			this.groundLoop(delta);
+			this.rocksLoop(delta);
 		}
 	}
 

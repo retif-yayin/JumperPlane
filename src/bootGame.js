@@ -57,7 +57,7 @@ class bootGame extends Phaser.Scene{
 	}
 
 	create(){
-		this.scene.start("PlayGame");
+		this.scene.start("MainMenu");
 	}
 
 }
