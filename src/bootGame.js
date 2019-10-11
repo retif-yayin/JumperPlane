@@ -5,10 +5,10 @@ class bootGame extends Phaser.Scene{
 	}
 
 	preload(){
-		//FONT
+		//LOAD FONTs
 		this.load.bitmapFont("main", "assets/png/fonts/main.png", "assets/png/fonts/main.fnt");
 
-		//IMAGES / TEXTURES
+		//LOAD IMAGES / TEXTURES
 		this.load.image("menuBG", "assets/png/ui/UIbg.png");
 		this.load.image("buttonLarge", "assets/png/ui/buttonLarge.png");
 		this.load.image("tapLeft", "assets/png/ui/tapLeft.png");
@@ -20,7 +20,7 @@ class bootGame extends Phaser.Scene{
 		this.load.image("puffLarge", "assets/png/puffLarge.png");
 		this.load.image("puffSmall", "assets/png/puffSmall.png");
 
-		this.load.image("redPlane", "assets/png/planes/planeRed1.png");
+		this.load.atlas("redPlane", "assets/spritesheet/redplane.png", "assets/spritesheet/redplane.json");
 		this.load.json("planes", "assets/pe/planes.json");
 
 		this.load.image("dirtUp", "assets/png/rock.png");
@@ -29,7 +29,7 @@ class bootGame extends Phaser.Scene{
 
 		this.load.image("grounddirt", "assets/png/groundDirt.png");
 
-		//SOUNDS
+		//LOAD SOUNDS
 		this.load.audio("main", [
 			"assets/sounds/mp3/anachronist.mp3",
 			"assets/sounds/ogg/anachronist.ogg",
@@ -57,7 +57,8 @@ class bootGame extends Phaser.Scene{
 	}
 
 	create(){
-		this.scene.start("MainMenu");
+		//After everything loaded, switch to menu scene
+		this.scene.start("PlayGame");
 	}
 
 }

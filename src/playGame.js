@@ -10,7 +10,7 @@ class playGame extends Phaser.Scene{
 		this.firstStart = true;
 		this.matter.world.pause();
 		this.pointedRocks = [];
-		this.gameSpeed = 120;
+		this.gameSpeed = 240;
 
 		this.planesJson = this.cache.json.get('planes');
 		this.rocksJson = this.cache.json.get('rocks');
@@ -21,9 +21,9 @@ class playGame extends Phaser.Scene{
 		this.swooshing = this.sound.add("swooshing");
 		this.wing = this.sound.add("wing");
 
-		this.pointText = this.add.text(gameOptions.width/2-15, 50, "0", {
+		this.pointText = this.add.text(gameOptions.width/2-30, 50, "0", {
 			fontFamily: 'font1',
-			fontSize: 72,
+			fontSize: 144,
 			stroke: '#000',
 			strokeThickness:2,
 			shadow: {
@@ -42,9 +42,9 @@ class playGame extends Phaser.Scene{
 		this.generateRocks();
 
 		this.tapUI = this.add.container();
-		var tapRight = this.add.image(450, gameOptions.height/2+80, "tapRight");
-		var tapLeft = this.add.image(650, gameOptions.height/2+80, "tapLeft");
-		var tapIcon = this.add.sprite(550, gameOptions.height/2+80, "tapTick");
+		var tapRight = this.add.image(900, gameOptions.height/2+80, "tapRight");
+		var tapLeft = this.add.image(1300, gameOptions.height/2+80, "tapLeft");
+		var tapIcon = this.add.sprite(1100, gameOptions.height/2+80, "tapTick");
 		this.tapUI.add([tapRight, tapLeft, tapIcon]);
 
 		this.tweens.add({
@@ -85,7 +85,7 @@ class playGame extends Phaser.Scene{
 
 	jumpPlane(){
 		if(this.isRunning){
-			this.plane.setVelocityY(-8);
+			this.plane.setVelocityY(-16);
 			this.wing.play();
 		}
 
@@ -95,6 +95,7 @@ class playGame extends Phaser.Scene{
 			this.firstStart = false;
 			this.jumpPlane();
 			this.increaseSpeedTimer.paused = false;
+			this.plane.anims.play("fly");
 
 			this.tweens.add({
 				duration:200,
@@ -112,12 +113,12 @@ class playGame extends Phaser.Scene{
 
 	checkCollision(event, bodyA, bodyB){
 		if(
-			(bodyA.label == "red" && bodyB.label == "up") ||
-			(bodyA.label == "red" && bodyB.label == "down") ||
-			(bodyA.label == "up" && bodyB.label == "red") ||
-			(bodyA.label == "down" && bodyB.label == "red") ||
-			(bodyA.label == "red" && bodyB.label == "Rectangle Body") ||
-			(bodyA.label == "Rectangle Body" && bodyB.label == "red")
+			(bodyA.label == "red1" && bodyB.label == "up") ||
+			(bodyA.label == "red1" && bodyB.label == "down") ||
+			(bodyA.label == "up" && bodyB.label == "red1") ||
+			(bodyA.label == "down" && bodyB.label == "red1") ||
+			(bodyA.label == "red1" && bodyB.label == "Rectangle Body") ||
+			(bodyA.label == "Rectangle Body" && bodyB.label == "red1")
 		){
 			this.gameOver();
 		}
@@ -159,22 +160,25 @@ class playGame extends Phaser.Scene{
 		this.groundPool = [];
 
 		for(var i=0; i<3; i++){
-			var ground = this.add.image(gameOptions.width/2+(i*800),444,"grounddirt");	
+			var ground = this.add.image(gameOptions.width/2+(i*1600),888,"grounddirt");	
 			
 			ground.order = i;
 			ground.alpha = 0.5;
 			this.groundPool.push(ground);
 		}
-
-		//this.groundPool.pop();
 	}
 
 	generatePlane(){
-		this.plane = this.matter.add.sprite(200, gameOptions.height/2,"redPlane", null, {
-			shape: this.planesJson.red,
+		this.plane = this.matter.add.sprite(400, gameOptions.height/2,"redPlane", "planeRed1.png", {
+			shape: this.planesJson.red1,
 			angle: 0,
 		});
-
+		this.anims.create({key:"fly", frames: [
+			{key: "redPlane", frame:"planeRed1.png"}, 
+			{key: "redPlane", frame:"planeRed2.png"}, 
+			{key: "redPlane", frame:"planeRed3.png"}
+		], frameRate: 15, repeat:-1});
+		this.plane.anims.stop();
 		this.plane.setFixedRotation();
 	}
 
@@ -186,13 +190,13 @@ class playGame extends Phaser.Scene{
 		for(var i=0; i<10; i++){
 			if(lastLoc == 0){
 				//308
-				var rock = this.matter.add.image((i*180)+(gameOptions.width-250), Math.random()*80,"dirtDown", null, {
+				var rock = this.matter.add.image((i*360)+(gameOptions.width-500), -50 + (Math.random()*80),"dirtDown", null, {
 					shape: this.rocksJson.dirtDown,
 				});
 
 				lastLoc = 1;
 			} else {
-				var rock = this.matter.add.image((i*180)+(gameOptions.width-250), (Math.random()*80)+420,"dirtUp", null, {
+				var rock = this.matter.add.image((i*360)+(gameOptions.width-500), (Math.random()*160)+800,"dirtUp", null, {
 					shape: this.rocksJson.dirtUp,
 				});
 
@@ -233,7 +237,7 @@ class playGame extends Phaser.Scene{
 			ground.x -= (this.gameSpeed*delta/1000)/2;
 			if(ground.x < -gameOptions.width/2){
 				var lastGroundLocation = Math.max.apply(Math, this.groundPool.map(function(o) { return o.x; }));
-				ground.x = lastGroundLocation+800;
+				ground.x = lastGroundLocation+ground.width;
 				if(ground.order == 0){
 					ground.x -= (this.gameSpeed*delta/1000)/2;
 				}
@@ -245,7 +249,7 @@ class playGame extends Phaser.Scene{
 		this.rocksPool.forEach(function(rock){
 			rock.x -= (this.gameSpeed*delta/1000);
 
-			if(rock.x < 150 && !rock.passed){
+			if(rock.x < 300 && !rock.passed){
 				this.points++;
 				this.pointText.text = this.points.toString();
 				this.point.play();
@@ -253,7 +257,7 @@ class playGame extends Phaser.Scene{
 			}else if(rock.x < -108){
 				this.rocksPool = this.rocksPool.slice(1, this.rocksPool.length);
 
-				var space = (Math.random()*130)+130;
+				var space = (Math.random()*100)+260;
 				var lastRockLocation = this.rocksPool[this.rocksPool.length-1].x;
 				rock.x = lastRockLocation+space;
 
@@ -267,13 +271,13 @@ class playGame extends Phaser.Scene{
 		var velocity = this.plane.body.velocity.y;
 		if(velocity > 0){
 			if(this.plane.angle < 25){
-				this.plane.setAngularVelocity(velocity*0.006);
+				this.plane.setAngularVelocity(velocity*0.003);
 			} else {
 				this.plane.setAngularVelocity(0);
 			}
 		} else {
 			if(this.plane.angle > -30){
-				this.plane.setAngularVelocity(velocity*0.006);
+				this.plane.setAngularVelocity(velocity*0.003);
 			} else {
 				this.plane.setAngularVelocity(0);
 			}
@@ -284,10 +288,11 @@ class playGame extends Phaser.Scene{
 		this.isRunning = false;
 		this.matter.world.pause();
 		this.hit.play();
+		this.plane.anims.stop();
 		//this.die.play();
 
 		var overlay = this.add.rectangle(0,0,gameOptions.width, gameOptions.height, 0x000000, 0.5).setOrigin(0,0);
-		var menuBG = this.add.image(gameOptions.width/2, gameOptions.height/2+50, "menuBG");
+		var menuBG = this.add.image(gameOptions.width/2, gameOptions.height/2+100, "menuBG");
 
 		if(this.highScore){
 			if(this.points > this.highScore){
@@ -298,9 +303,9 @@ class playGame extends Phaser.Scene{
 			this.highScore = this.points;
 			localStorage.setItem(gameOptions.dataName, this.highScore);
 		}
-		var highScoreText = this.add.text(gameOptions.width/2-110, gameOptions.height/2-50, "HIGH SCORE  "+this.highScore.toString(), {
+		var highScoreText = this.add.text(gameOptions.width/2-220, gameOptions.height/2-100, "HIGH SCORE  "+this.highScore.toString(), {
 			fontFamily: 'font1',
-			fontSize: 38,
+			fontSize: 76,
 			shadow: {
 				offsetY:1,
 				blur: 1,
@@ -310,17 +315,17 @@ class playGame extends Phaser.Scene{
 
 		var fontStyles = {
 			fontFamily: 'font1',
-			fontSize: 35,
+			fontSize: 70,
 			stroke: '#000',
 			strokeThickness: 1,
 		};
 		//Restart Button
 		var restartBg 	= this.add.image(0, 0, "buttonLarge");
-		var restartTxt 	= this.add.text(-60, -22, "RESTART", fontStyles);
+		var restartTxt 	= this.add.text(-120, -44, "RESTART", fontStyles);
 		this.restartBtn = this.add.container(0, 0, [restartBg, restartTxt]);
 		this.restartBtn.x = gameOptions.width/2;
-		this.restartBtn.y = gameOptions.height/2+50;
-		this.restartBtn.setSize(196, 70);
+		this.restartBtn.y = gameOptions.height/2+100;
+		this.restartBtn.setSize(390, 139);
 		this.restartBtn.setInteractive();
 		this.restartBtn.on("pointerup", function(){
 			this.swooshing.play();
@@ -329,11 +334,11 @@ class playGame extends Phaser.Scene{
 
 		//Main menu Button
 		var mainmenuBg 	= this.add.image(0, 0, "buttonLarge");
-		var mainmenuTxt = this.add.text(-76, -22, "MAIN MENU", fontStyles);
+		var mainmenuTxt = this.add.text(-152, -44, "MAIN MENU", fontStyles);
 		this.mainmenuBtn = this.add.container(0, 0, [mainmenuBg, mainmenuTxt]);
 		this.mainmenuBtn.x = gameOptions.width/2;
-		this.mainmenuBtn.y = gameOptions.height/2+130;
-		this.mainmenuBtn.setSize(196, 70);
+		this.mainmenuBtn.y = gameOptions.height/2+260;
+		this.mainmenuBtn.setSize(390, 139);
 		this.mainmenuBtn.setInteractive();
 		this.mainmenuBtn.on("pointerup", () => {
 			this.swooshing.play();

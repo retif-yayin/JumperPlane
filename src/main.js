@@ -1,7 +1,7 @@
 //GAME OPTIONS
 var gameOptions = {
-	width:800,
-	height:480,
+	width:1600,
+	height:960,
 	dataName: "JumperPlaneScore",
 };
 
@@ -22,7 +22,7 @@ window.onload = function(){
 		physics: {
 			default: "matter",
 			matter:{
-				gravity: {x: 0, y: 1},
+				gravity: {x: 0, y: 2},
 				//debug: true,
 			}
 		}
