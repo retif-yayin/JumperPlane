@@ -140,12 +140,12 @@ class playGame extends Phaser.Scene{
 	generateClouds(){
 		this.cloudPool = [];
 		
-		//Smallest: 25,25
+		//Smallest: 50, 50
 		//Largest: 775, 150
 		for(var i=0; i<8; i++){
 			var isLarge = Math.round(Math.random());
-			var xLocation = (Math.random()*750)+25;
-			var yLocation = (Math.random()*125)+25;
+			var xLocation = (Math.random()*1550)+50;
+			var yLocation = (Math.random()*250)+50;
 			if(isLarge){
 				var cloud = this.add.image(xLocation,yLocation,"puffLarge");
 			} else {
@@ -189,16 +189,17 @@ class playGame extends Phaser.Scene{
 
 		for(var i=0; i<10; i++){
 			if(lastLoc == 0){
-				//308
-				var rock = this.matter.add.image((i*360)+(gameOptions.width-500), -50 + (Math.random()*80),"dirtDown", null, {
+				var rock = this.matter.add.image((i*300)+(gameOptions.width-500), -50 + (Math.random()*210),"dirtDown", null, {
 					shape: this.rocksJson.dirtDown,
 				});
+				rock.loc = 1;
 
 				lastLoc = 1;
 			} else {
-				var rock = this.matter.add.image((i*360)+(gameOptions.width-500), (Math.random()*160)+800,"dirtUp", null, {
+				var rock = this.matter.add.image((i*300)+(gameOptions.width-500), (Math.random()*200)+800,"dirtUp", null, {
 					shape: this.rocksJson.dirtUp,
 				});
+				rock.loc = 0;
 
 				lastLoc = 0;
 			}
@@ -222,8 +223,8 @@ class playGame extends Phaser.Scene{
 			cloud.x -= (this.gameSpeed*delta/1000)/4;
 			if(cloud.x < -30){
 				var isLarge = Math.round(Math.random());
-				var xLocation = (Math.random()*750)+25;
-				var yLocation = (Math.random()*125)+25;
+				var xLocation = (Math.random()*1550)+50;
+				var yLocation = (Math.random()*250)+50;
 
 				cloud.texture = isLarge ? "puffLarge" : "puffSmall";
 				cloud.x = xLocation + gameOptions.width;
@@ -257,9 +258,16 @@ class playGame extends Phaser.Scene{
 			}else if(rock.x < -108){
 				this.rocksPool = this.rocksPool.slice(1, this.rocksPool.length);
 
-				var space = (Math.random()*100)+260;
+				var space = 200;
 				var lastRockLocation = this.rocksPool[this.rocksPool.length-1].x;
+				if(rock.loc == 1){
+					var newYLocation = -50 + (Math.random()*210);
+				} else {
+					var newYLocation = (Math.random()*200)+800;
+				}
+				
 				rock.x = lastRockLocation+space;
+				rock.y = newYLocation;
 
 				rock.passed = false;
 				this.rocksPool.push(rock);
@@ -344,6 +352,9 @@ class playGame extends Phaser.Scene{
 			this.swooshing.play();
 			this.scene.start("MainMenu");
 		});
+
+		//GameOver Text
+		this.add.image(gameOptions.width/2, gameOptions.height/2-230, "textGameOver").setScale(0.8);
 	}
 
 	update(time, delta){

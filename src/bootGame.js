@@ -5,9 +5,6 @@ class bootGame extends Phaser.Scene{
 	}
 
 	preload(){
-		//LOAD FONTs
-		this.load.bitmapFont("main", "assets/png/fonts/main.png", "assets/png/fonts/main.fnt");
-
 		//LOAD IMAGES / TEXTURES
 		this.load.image("menuBG", "assets/png/ui/UIbg.png");
 		this.load.image("buttonLarge", "assets/png/ui/buttonLarge.png");
@@ -15,6 +12,7 @@ class bootGame extends Phaser.Scene{
 		this.load.image("tapRight", "assets/png/ui/tapRight.png");
 		this.load.image("tap", "assets/png/ui/tap.png");
 		this.load.image("tapTick", "assets/png/ui/tapTick.png");
+		this.load.image("textGameOver", "assets/png/ui/textGameOver.png");
 
 		this.load.image("background", "assets/png/background.png");
 		this.load.image("puffLarge", "assets/png/puffLarge.png");
@@ -58,7 +56,7 @@ class bootGame extends Phaser.Scene{
 
 	create(){
 		//After everything loaded, switch to menu scene
-		this.scene.start("PlayGame");
+		this.scene.start("MainMenu");
 	}
 
 }
