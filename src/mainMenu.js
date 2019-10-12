@@ -6,9 +6,12 @@ class mainMenu extends Phaser.Scene{
 
 	create(){
 		this.swooshing = this.sound.add("swooshing");
+		this.musicOption = localStorage.getItem(gameOptions.music) || true;
 		this.mainMusic = this.sound.add("main");
-		this.mainMusic.play();
-		this.mainMusic.setLoop(true);
+		if(this.musicOption === "true"){
+			this.mainMusic.play();
+			this.mainMusic.setLoop(true);
+		}
 		var background = this.add.image(0,0,"background").setOrigin(0,0);
 
 		this.generatePlaneAnims();
@@ -51,8 +54,10 @@ class mainMenu extends Phaser.Scene{
 		this.playBtn.setInteractive();
 		this.playBtn.on("pointerup", () => {
 			this.swooshing.play();
-			this.mainMusic.setLoop(false);
-			this.mainMusic.stop();
+			if(this.musicOption === "true"){
+				this.mainMusic.setLoop(false);
+				this.mainMusic.stop();
+			}
 			this.scene.start("PlayGame");
 		});
 
@@ -65,7 +70,12 @@ class mainMenu extends Phaser.Scene{
 		this.optionsBtn.setSize(390, 139);
 		this.optionsBtn.setInteractive();
 		this.optionsBtn.on("pointerup", () => {
-			console.log("clicked options");
+			this.swooshing.play();
+			if(this.musicOption === "true"){
+				this.mainMusic.setLoop(false);
+				this.mainMusic.stop();
+			}
+			this.scene.start("Options");
 		});
 
 		//Credits Button

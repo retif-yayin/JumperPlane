@@ -3,6 +3,7 @@ var gameOptions = {
 	width:1600,
 	height:960,
 	dataName: "JumperPlaneScore",
+	music: "JumperPlaneMusic"
 };
 
 var game;
@@ -14,7 +15,7 @@ window.onload = function(){
 		width: gameOptions.width,
 		height: gameOptions.height,
 		backgroundColor: 0xd5edf7,
-		scene: [bootGame, mainMenu, playGame],
+		scene: [bootGame, mainMenu, options, playGame],
 		scale: {
 			mode: Phaser.Scale.FIT,
 			autoCenter: Phaser.Scale.CENTER_BOTH,
