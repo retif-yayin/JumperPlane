@@ -19,9 +19,9 @@ class bootGame extends Phaser.Scene{
 		this.load.image("puffSmall", "assets/png/puffSmall.png");
 
 		this.load.atlas("redPlane", "assets/spritesheet/redplane.png", "assets/spritesheet/redplane.json");
-		this.load.atlas("bluePlane", "assets/spritesheet/bluePlane.png", "assets/spritesheet/bluePlane.json");
-		this.load.atlas("greenPlane", "assets/spritesheet/greenPlane.png", "assets/spritesheet/greenPlane.json");
-		this.load.atlas("yellowPlane", "assets/spritesheet/yellowPlane.png", "assets/spritesheet/yellowPlane.json");
+		this.load.atlas("bluePlane", "assets/spritesheet/blueplane.png", "assets/spritesheet/blueplane.json");
+		this.load.atlas("greenPlane", "assets/spritesheet/greenplane.png", "assets/spritesheet/greenplane.json");
+		this.load.atlas("yellowPlane", "assets/spritesheet/yellowplane.png", "assets/spritesheet/yellowplane.json");
 		this.load.json("planes", "assets/pe/planes.json");
 
 		this.load.image("dirtUp", "assets/png/rock.png");
