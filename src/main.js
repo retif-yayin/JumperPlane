@@ -15,7 +15,7 @@ window.onload = function(){
 		width: gameOptions.width,
 		height: gameOptions.height,
 		backgroundColor: 0xd5edf7,
-		scene: [bootGame, mainMenu, options, playGame],
+		scene: [bootGame, mainMenu, options, credits, playGame],
 		scale: {
 			mode: Phaser.Scale.FIT,
 			autoCenter: Phaser.Scale.CENTER_BOTH,
