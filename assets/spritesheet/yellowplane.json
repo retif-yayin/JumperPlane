@@ -1,0 +1,83 @@
+{
+	"textures": [
+		{
+			"image": "yellowplane.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 174,
+				"h": 438
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "planeYellow1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 172,
+						"h": 144
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 172,
+						"h": 144
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 172,
+						"h": 144
+					}
+				},
+				{
+					"filename": "planeYellow2.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 172,
+						"h": 144
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 172,
+						"h": 144
+					},
+					"frame": {
+						"x": 1,
+						"y": 147,
+						"w": 172,
+						"h": 144
+					}
+				},
+				{
+					"filename": "planeYellow3.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 172,
+						"h": 144
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 172,
+						"h": 144
+					},
+					"frame": {
+						"x": 1,
+						"y": 293,
+						"w": 172,
+						"h": 144
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:9bc3de1e1509cfa680b6fe5098b52c97:58aa94c8380e8f6eed5e4e3e3d40638a:2bc6125c140c0ad3a774eea56698627d$"
+	}
+}

@@ -19,13 +19,26 @@ class bootGame extends Phaser.Scene{
 		this.load.image("puffSmall", "assets/png/puffSmall.png");
 
 		this.load.atlas("redPlane", "assets/spritesheet/redplane.png", "assets/spritesheet/redplane.json");
+		this.load.atlas("bluePlane", "assets/spritesheet/bluePlane.png", "assets/spritesheet/bluePlane.json");
+		this.load.atlas("greenPlane", "assets/spritesheet/greenPlane.png", "assets/spritesheet/greenPlane.json");
+		this.load.atlas("yellowPlane", "assets/spritesheet/yellowPlane.png", "assets/spritesheet/yellowPlane.json");
 		this.load.json("planes", "assets/pe/planes.json");
 
 		this.load.image("dirtUp", "assets/png/rock.png");
 		this.load.image("dirtDown", "assets/png/rockDown.png");
+		this.load.image("grassUp", "assets/png/rockGrass.png");
+		this.load.image("grassDown", "assets/png/rockGrassDown.png");
+		this.load.image("iceUp", "assets/png/rockIce.png");
+		this.load.image("iceDown", "assets/png/rockIceDown.png");
+		this.load.image("snowUp", "assets/png/rockSnow.png");
+		this.load.image("snowDown", "assets/png/rockSnowDown.png");
 		this.load.json("rocks", "assets/pe/rocks.json");
 
 		this.load.image("grounddirt", "assets/png/groundDirt.png");
+		this.load.image("groundgrass", "assets/png/groundGrass.png");
+		this.load.image("groundice", "assets/png/groundIce.png");
+		this.load.image("groundsnow", "assets/png/groundSnow.png");
+		this.load.image("groundrock", "assets/png/groundRock.png");
 
 		//LOAD SOUNDS
 		this.load.audio("main", [

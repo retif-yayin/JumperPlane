@@ -9,8 +9,9 @@ class playGame extends Phaser.Scene{
 		this.isRunning = false;
 		this.firstStart = true;
 		this.matter.world.pause();
-		this.pointedRocks = [];
 		this.gameSpeed = 240;
+		this.changeGraphics = false;
+		this.planeAnim;
 
 		this.planesJson = this.cache.json.get('planes');
 		this.rocksJson = this.cache.json.get('rocks');
@@ -21,7 +22,7 @@ class playGame extends Phaser.Scene{
 		this.swooshing = this.sound.add("swooshing");
 		this.wing = this.sound.add("wing");
 
-		this.pointText = this.add.text(gameOptions.width/2-30, 50, "0", {
+		this.pointText = this.add.text(gameOptions.width/2-40, 50, "0", {
 			fontFamily: 'font1',
 			fontSize: 144,
 			stroke: '#000',
@@ -95,7 +96,7 @@ class playGame extends Phaser.Scene{
 			this.firstStart = false;
 			this.jumpPlane();
 			this.increaseSpeedTimer.paused = false;
-			this.plane.anims.play("fly");
+			this.plane.anims.play(this.planeAnim);
 
 			this.tweens.add({
 				duration:200,
@@ -125,14 +126,15 @@ class playGame extends Phaser.Scene{
 	}
 
 	increaseGameSpeed(){
-		this.gameSpeed += 10;
+		this.gameSpeed += 20;
 	}
 
 	generateBackground(){
 		this.backgroundPool = [];
 
-		for(var i=0; i<3; i++){
+		for(var i=0; i<5; i++){
 			var background = this.add.image(i*gameOptions.width,0,"background").setOrigin(0,0);
+			background.order = i;
 			this.backgroundPool.push(background);
 		}
 	}
@@ -169,16 +171,43 @@ class playGame extends Phaser.Scene{
 	}
 
 	generatePlane(){
-		this.plane = this.matter.add.sprite(400, gameOptions.height/2,"redPlane", "planeRed1.png", {
+		var planeColor = Math.floor(Math.random()*4);
+		var sprite;
+		var Fprefix;
+
+		switch(planeColor){
+			case 0:
+				sprite = 'redPlane';
+				Fprefix = 'planeRed';
+				break;
+			case 1:
+				sprite = 'bluePlane';
+				Fprefix = 'planeBlue';
+				break;
+			case 2:
+				sprite = 'greenPlane';
+				Fprefix = 'planeGreen';
+				break;
+			case 3:
+				sprite = 'yellowPlane';
+				Fprefix = 'planeYellow';
+				break;
+		}
+
+		this.planeAnim = sprite+"Anim";
+
+		this.plane = this.matter.add.sprite(400, gameOptions.height/2, sprite, Fprefix+"1.png", {
 			shape: this.planesJson.red1,
 			angle: 0,
 		});
-		this.anims.create({key:"fly", frames: [
-			{key: "redPlane", frame:"planeRed1.png"}, 
-			{key: "redPlane", frame:"planeRed2.png"}, 
-			{key: "redPlane", frame:"planeRed3.png"}
-		], frameRate: 15, repeat:-1});
+
+		var frameNames = this.anims.generateFrameNames(sprite, {
+			start:1, end:3, prefix: Fprefix, suffix: '.png'
+		});
+
+		this.anims.create({key:this.planeAnim, frames: frameNames, frameRate: 15, repeat:-1});
 		this.plane.anims.stop();
+
 		this.plane.setFixedRotation();
 	}
 
@@ -208,12 +237,40 @@ class playGame extends Phaser.Scene{
 		}
 	}
 
-	backgroundLoop(delta){
-		this.backgroundPool.forEach(function(background){
-			background.x -= (this.gameSpeed*delta/1000)/5;
-			if(background.x < -gameOptions.width){
-				var lastBackgroundLocation = Math.max.apply(Math, this.backgroundPool.map(function(o) { return o.x; }));
-				background.x = lastBackgroundLocation+800;
+	rocksLoop(delta){
+		this.rocksPool.forEach(function(rock){
+			rock.x -= (this.gameSpeed*delta/1000);
+
+			if(rock.x < 300 && !rock.passed){
+				this.points++;
+				this.pointText.text = this.points.toString();
+				this.point.play();
+				rock.passed = true;
+			}else if(rock.x < -108){
+				this.rocksPool = this.rocksPool.slice(1, this.rocksPool.length);
+
+				var lastRockLocation = this.rocksPool[this.rocksPool.length-1].x;
+				if(rock.loc == 1){
+					var newYLocation = -50 + (Math.random()*210);
+				} else {
+					var newYLocation = (Math.random()*200)+800;
+				}
+				
+				rock.x = lastRockLocation+300;
+				rock.y = newYLocation;
+				rock.passed = false;
+
+				if(this.points > 130){
+					rock.setTexture(rock.loc == 0 ? "dirtUp" : "dirtDown");
+				} else if(this.points > 100){
+					rock.setTexture(rock.loc == 0 ? "iceUp" : "iceDown");
+				} else if(this.points > 80){
+					rock.setTexture(rock.loc == 0 ? "snowUp" : "snowDown");
+				} else if(this.points > 50){
+					rock.setTexture(rock.loc == 0 ? "grassUp" : "grassDown");
+				}
+
+				this.rocksPool.push(rock);
 			}
 		}.bind(this));
 	}
@@ -233,6 +290,19 @@ class playGame extends Phaser.Scene{
 		}.bind(this));
 	}
 
+	backgroundLoop(delta){
+		this.backgroundPool.forEach(function(background){
+			background.x -= (this.gameSpeed*delta/1000)/5;
+			if(background.x < -gameOptions.width){
+				var lastBackgroundLocation = Math.max.apply(Math, this.backgroundPool.map(function(o) { return o.x; }));
+				background.x = lastBackgroundLocation+800;
+				if(background.order == 0){
+					background.x -= (this.gameSpeed*delta/1000)/5;
+				}
+			}
+		}.bind(this));
+	}
+
 	groundLoop(delta){
 		this.groundPool.forEach(function(ground){
 			ground.x -= (this.gameSpeed*delta/1000)/2;
@@ -242,35 +312,16 @@ class playGame extends Phaser.Scene{
 				if(ground.order == 0){
 					ground.x -= (this.gameSpeed*delta/1000)/2;
 				}
-			}
-		}.bind(this));
-	}
 
-	rocksLoop(delta){
-		this.rocksPool.forEach(function(rock){
-			rock.x -= (this.gameSpeed*delta/1000);
-
-			if(rock.x < 300 && !rock.passed){
-				this.points++;
-				this.pointText.text = this.points.toString();
-				this.point.play();
-				rock.passed = true;
-			}else if(rock.x < -108){
-				this.rocksPool = this.rocksPool.slice(1, this.rocksPool.length);
-
-				var space = 200;
-				var lastRockLocation = this.rocksPool[this.rocksPool.length-1].x;
-				if(rock.loc == 1){
-					var newYLocation = -50 + (Math.random()*210);
-				} else {
-					var newYLocation = (Math.random()*200)+800;
+				if(this.points > 120){
+					ground.setTexture("groundrock");
+				} else if(this.points > 90){
+					ground.setTexture("groundice");
+				} else if(this.points > 60){
+					ground.setTexture("groundsnow");
+				} else if(this.points > 30){
+					ground.setTexture("groundgrass");
 				}
-				
-				rock.x = lastRockLocation+space;
-				rock.y = newYLocation;
-
-				rock.passed = false;
-				this.rocksPool.push(rock);
 			}
 		}.bind(this));
 	}
@@ -311,7 +362,7 @@ class playGame extends Phaser.Scene{
 			this.highScore = this.points;
 			localStorage.setItem(gameOptions.dataName, this.highScore);
 		}
-		var highScoreText = this.add.text(gameOptions.width/2-220, gameOptions.height/2-100, "HIGH SCORE  "+this.highScore.toString(), {
+		var highScoreText = this.add.text(gameOptions.width/2-225, gameOptions.height/2-100, "HIGH SCORE  "+this.highScore.toString(), {
 			fontFamily: 'font1',
 			fontSize: 76,
 			shadow: {

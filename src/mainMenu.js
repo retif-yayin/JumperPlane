@@ -9,8 +9,9 @@ class mainMenu extends Phaser.Scene{
 		this.mainMusic = this.sound.add("main");
 		this.mainMusic.play();
 		this.mainMusic.setLoop(true);
-		
 		var background = this.add.image(0,0,"background").setOrigin(0,0);
+
+		this.generatePlaneAnims();
 
 		var titleTxt = this.add.text(gameOptions.width/2 - 600, gameOptions.height/2-420, "JUMPER PLANE", {
 			fontFamily: 'font1',
@@ -24,7 +25,7 @@ class mainMenu extends Phaser.Scene{
 			}
 		});
 
-		var versionTxt = this.add.text(gameOptions.width/2 + 210, gameOptions.height/2-240, "CURRENT VERSION 1.0", {
+		var versionTxt = this.add.text(gameOptions.width/2 + 210, gameOptions.height/2-240, "CURRENT VERSION 0.9", {
 			fontFamily: 'font1',
 			color: '#ff4c4c',
 			fontSize: 44,
@@ -77,6 +78,116 @@ class mainMenu extends Phaser.Scene{
 		this.creditsBtn.setInteractive();
 		this.creditsBtn.on("pointerup", function(){
 			console.log("clicked credits");
+		});
+	}
+
+	generatePlaneAnims(){
+		for(var i=0; i<4; i++){
+			var planeColor = Math.floor(Math.random()*4);
+			var sprite;
+			var Fprefix;
+			var startX = 0;
+			var startY = 0;
+			var startR = 0;
+			var targetY = 0;
+
+			switch(planeColor){
+				case 0:
+					sprite = 'redPlane';
+					Fprefix = 'planeRed';
+					break;
+				case 1:
+					sprite = 'bluePlane';
+					Fprefix = 'planeBlue';
+					break;
+				case 2:
+					sprite = 'greenPlane';
+					Fprefix = 'planeGreen';
+					break;
+				case 3:
+					sprite = 'yellowPlane';
+					Fprefix = 'planeYellow';
+					break;
+			}
+
+			var animationDirection = Math.floor(Math.random()*4);
+
+			if(animationDirection == 0){
+				startX = 300;
+				startY = -200;
+				startR = 90;
+				targetY = 1060;
+			} else if(animationDirection == 1){
+				startX = 300;
+				startY = 1060;
+				startR = 270;
+				targetY = -200;
+			} else if(animationDirection == 2){
+				startX = 1300;
+				startY = -200;
+				startR = 90;
+				targetY = 1060;
+			} else if(animationDirection == 3){
+				startX = 1300;
+				startY = 1060;
+				startR = 270;
+				targetY = -200;
+			}
+
+			var planeAnim = planeColor+"Anim";
+			var plane = this.add.sprite(startX, startY, sprite, Fprefix+"1.png");
+			var frameNames = this.anims.generateFrameNames(sprite, {
+				start:1, end:3, prefix: Fprefix, suffix: '.png'
+			});
+
+			this.anims.create({key:planeAnim, frames: frameNames, frameRate: 15, repeat:-1});
+			plane.anims.play(planeAnim);
+			plane.setAngle(startR);
+			plane.alpha = 0.6;
+			this.applyTween(plane, targetY);
+		}
+	}
+
+	applyTween(plane, targetY){
+		this.tweens.add({
+			targets: plane,
+			y: targetY,
+			duration:2000,
+			repeat:0,
+			yoyo:false,
+			callbackScope: this,
+			onComplete: function(){
+				var startX = 0;
+				var startY = 0;
+				var startR = 0;
+				var animationDirection = Math.floor(Math.random()*4);
+				if(animationDirection == 0){
+					startX = 300;
+					startY = -200;
+					startR = 90;
+					targetY = 1060;
+				} else if(animationDirection == 1){
+					startX = 300;
+					startY = 1060;
+					startR = 270;
+					targetY = -200;
+				} else if(animationDirection == 2){
+					startX = 1300;
+					startY = -200;
+					startR = 90;
+					targetY = 1060;
+				} else if(animationDirection == 3){
+					startX = 1300;
+					startY = 1060;
+					startR = 270;
+					targetY = -200;
+				}
+				plane.x = startX;
+				plane.y = startY;
+				plane.setAngle(startR);
+
+				this.applyTween(plane, targetY);
+			}
 		});
 	}
 
