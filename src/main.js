@@ -11,14 +11,10 @@ var game;
 window.onload = function(){
 	//DEFINE GAME START POINT
 	game = new Phaser.Game({
-		type: Phaser.WEBGL,
+		type: Phaser.CANVAS,
 		width: gameOptions.width,
 		height: gameOptions.height,
 		backgroundColor: 0xd5edf7,
-		fps: {
-			min: 30,
-			forceSetTimeOut: true
-		},
 		scene: [bootGame, mainMenu, options, credits, playGame],
 		scale: {
 			mode: Phaser.Scale.FIT,
@@ -27,13 +23,16 @@ window.onload = function(){
 		physics: {
 			default: "matter",
 			matter:{
-				gravity: {x: 0, y: 0.5},
+				gravity: {x: 0, y: 2},
+				autoUpdate: false
 				//debug: true,
 			}
 		}
 	});
 
-	//setInterval(function(){ console.log(game.loop.actualFps); }, 100);
+	setInterval(function(){
+		document.getElementById("fps").innerHTML = game.loop.actualFps.toString();
+	}, 100);
 	
 
 	window.focus();

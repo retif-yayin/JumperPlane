@@ -86,8 +86,13 @@ class mainMenu extends Phaser.Scene{
 		this.creditsBtn.y = gameOptions.height/2+260;
 		this.creditsBtn.setSize(390, 139);
 		this.creditsBtn.setInteractive();
-		this.creditsBtn.on("pointerup", function(){
-			console.log("clicked credits");
+		this.creditsBtn.on("pointerup", () => {
+			this.swooshing.play();
+			if(this.musicOption === "true"){
+				this.mainMusic.setLoop(false);
+				this.mainMusic.stop();
+			}
+			this.scene.start("Credits");
 		});
 	}
 

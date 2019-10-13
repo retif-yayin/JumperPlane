@@ -1,7 +1,7 @@
-class options extends Phaser.Scene{
+class credits extends Phaser.Scene{
 
 	constructor(){
-		super("Options");
+		super("Credits");
 	}
 
 	create(){
@@ -30,42 +30,12 @@ class options extends Phaser.Scene{
 		});
 		versionTxt.alpha = 0.8;
 
-		var menuBG = this.add.image(gameOptions.width/2, gameOptions.height/2+100, "menuBG");
-
 		var fontStyles = {
 			fontFamily: 'font1',
 			fontSize: 70,
 			stroke: '#000',
 			strokeThickness: 1,
 		};
-
-		this.musicOption = localStorage.getItem(gameOptions.music) || "true";
-		if(this.musicOption === "true"){
-			this.mainMusic.play();
-			this.mainMusic.setLoop(true);
-		}
-
-		//Music Button
-		var musicBg 	= this.add.image(0, 0, "buttonLarge");
-		var musicTxt 	= this.add.text(-130, -40, this.musicOption === "true" ? "MUSIC ON" : "MUSIC OFF", fontStyles);
-		this.musicBtn 	= this.add.container(0, 0, [musicBg, musicTxt]);
-		this.musicBtn.x = gameOptions.width/2;
-		this.musicBtn.y = gameOptions.height/2-60;
-		this.musicBtn.setSize(musicBg.width, musicBg.height);
-		this.musicBtn.setInteractive();
-		this.musicBtn.on("pointerup", () => {
-			if(this.musicOption === "true"){
-				this.musicOption = "false";
-				this.mainMusic.stop();
-				musicTxt.text = "MUSIC OFF";
-			} else {
-				this.musicOption = "true";
-				this.mainMusic.play();
-				musicTxt.text = "MUSIC ON";
-			}
-
-			localStorage.setItem(gameOptions.music, this.musicOption);
-		});
 
 		//Back Button
 		var backBg	 	= this.add.image(0, 0, "buttonLarge");
@@ -77,11 +47,8 @@ class options extends Phaser.Scene{
 		this.backBtn.setInteractive();
 		this.backBtn.on("pointerup", () => {
 			this.swooshing.play();
-			if(this.musicOption === "true"){
-				this.mainMusic.setLoop(false);
-				this.mainMusic.stop();
-			}
 			this.scene.start("MainMenu");
 		});
 	}
+
 }

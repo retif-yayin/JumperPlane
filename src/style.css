@@ -17,3 +17,11 @@ body{
 	left: -1000px;
 	visibility: hidden;
 }
+
+#fps{
+	font-size: 30px;
+	position: absolute;
+	z-index: 99999;
+	top: 0;
+	left: 0;
+}
