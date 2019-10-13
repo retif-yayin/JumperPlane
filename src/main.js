@@ -11,7 +11,7 @@ var game;
 window.onload = function(){
 	//DEFINE GAME START POINT
 	game = new Phaser.Game({
-		type: Phaser.AUTO,
+		type: Phaser.WEBGL,
 		width: gameOptions.width,
 		height: gameOptions.height,
 		backgroundColor: 0xd5edf7,
@@ -27,7 +27,7 @@ window.onload = function(){
 		physics: {
 			default: "matter",
 			matter:{
-				gravity: {x: 0, y: 2},
+				gravity: {x: 0, y: 0.5},
 				//debug: true,
 			}
 		}
