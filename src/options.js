@@ -45,7 +45,7 @@ class options extends Phaser.Scene{
 			this.mainMusic.setLoop(true);
 		}
 
-		//Music Button
+		//Play Game Button
 		var musicBg 	= this.add.image(0, 0, "buttonLarge");
 		var musicTxt 	= this.add.text(-130, -40, this.musicOption === "true" ? "MUSIC ON" : "MUSIC OFF", fontStyles);
 		this.musicBtn 	= this.add.container(0, 0, [musicBg, musicTxt]);
@@ -67,7 +67,7 @@ class options extends Phaser.Scene{
 			localStorage.setItem(gameOptions.music, this.musicOption);
 		});
 
-		//Back Button
+		//Credits Button
 		var backBg	 	= this.add.image(0, 0, "buttonLarge");
 		var backTxt 	= this.add.text(-75, -44, "BACK", fontStyles);
 		this.backBtn = this.add.container(0, 0, [backBg, backTxt]);
