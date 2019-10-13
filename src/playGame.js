@@ -86,7 +86,7 @@ class playGame extends Phaser.Scene{
 
 	jumpPlane(){
 		if(this.isRunning){
-			this.plane.setVelocityY(-16);
+			this.plane.setVelocityY(-9);
 			this.wing.play();
 		}
 
@@ -330,7 +330,7 @@ class playGame extends Phaser.Scene{
 		var velocity = this.plane.body.velocity.y;
 		if(velocity > 0){
 			if(this.plane.angle < 25){
-				this.plane.setAngularVelocity(velocity*0.003);
+				this.plane.setAngularVelocity(velocity*0.002);
 			} else {
 				this.plane.setAngularVelocity(0);
 			}
