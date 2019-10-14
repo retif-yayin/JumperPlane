@@ -34,14 +34,14 @@
 To run these games on your local you need local web server on your computer. If you double-click to index.html it will probably open with errors.
 
 ## Resources
-*Graphics:*
+**Graphics:**<br />
 https://kenney.nl/assets/tappy-plane
 
-*Main Music:*
-https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100332
-Anachronist Kevin MacLeod (incompetech.com)
-Licensed under Creative Commons: By Attribution 3.0 License
-http://creativecommons.org/licenses/by/3.0/
+**Main Music:**<br />
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100332<br />
+Anachronist Kevin MacLeod (incompetech.com)<br />
+Licensed under Creative Commons: By Attribution 3.0 License<br />
+http://creativecommons.org/licenses/by/3.0/<br />
 
 
 
