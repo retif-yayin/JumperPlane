@@ -1,5 +1,57 @@
 import gameOptions from "./gameOptions.js";
 
+import logo from "./assets/png/ui/logo.png";
+import menuBG from "./assets/png/ui/UIbg.png";
+import buttonLarge from "./assets/png/ui/buttonLarge.png";
+import tapLeft from "./assets/png/ui/tapLeft.png";
+import tapRight from "./assets/png/ui/tapRight.png";
+import tap from "./assets/png/ui/tap.png";
+import tapTick from "./assets/png/ui/tapTick.png";
+import textGameOver from "./assets/png/ui/textGameOver.png";
+
+import background from "./assets/png/background.png";
+import puffLarge from "./assets/png/puffLarge.png";
+import puffSmall from "./assets/png/puffSmall.png";
+
+import redPlane from "./assets/spritesheet/redplane.png"; 
+import redPlaneJSON from "./assets/spritesheet/redplane.json";
+import bluePlane from "./assets/spritesheet/blueplane.png"; 
+import bluePlaneJSON from "./assets/spritesheet/blueplane.json";
+import greenPlane from "./assets/spritesheet/greenplane.png"; 
+import greenPlaneJSON from "./assets/spritesheet/greenplane.json";
+import yellowPlane from "./assets/spritesheet/yellowplane.png"; 
+import yellowPlaneJSON from "./assets/spritesheet/yellowplane.json";
+import planes from "./assets/pe/planes.json";
+
+import dirtUp from "./assets/png/rock.png";
+import dirtDown from "./assets/png/rockDown.png";
+import grassUp from "./assets/png/rockGrass.png";
+import grassDown from "./assets/png/rockGrassDown.png";
+import iceUp from "./assets/png/rockIce.png";
+import iceDown from "./assets/png/rockIceDown.png";
+import snowUp from "./assets/png/rockSnow.png";
+import snowDown from "./assets/png/rockSnowDown.png";
+import rocks from "./assets/pe/rocks.json";
+
+import grounddirt from "./assets/png/groundDirt.png";
+import groundgrass from "./assets/png/groundGrass.png";
+import groundice from "./assets/png/groundIce.png";
+import groundsnow from "./assets/png/groundSnow.png";
+import groundrock from "./assets/png/groundRock.png";
+
+import main from "./assets/sounds/mp3/anachronist.mp3";
+import mainogg from "./assets/sounds/ogg/anachronist.ogg";
+import die from "./assets/sounds/mp3/die.mp3";
+import dieogg from "./assets/sounds/ogg/die.ogg";
+import hit from "./assets/sounds/mp3/hit.mp3";
+import hitogg from "./assets/sounds/ogg/hit.ogg";
+import point from "./assets/sounds/mp3/point.mp3";
+import pointogg from "./assets/sounds/ogg/point.ogg";
+import swooshing from "./assets/sounds/mp3/swooshing.mp3";
+import swooshingogg from "./assets/sounds/ogg/swooshing.ogg";
+import wing from "./assets/sounds/mp3/wing.mp3";
+import wingogg from "./assets/sounds/ogg/wing.ogg";
+
 export default class bootGame extends Phaser.Scene{
 
 	constructor(){
@@ -8,66 +60,48 @@ export default class bootGame extends Phaser.Scene{
 
 	preload(){
 		//LOAD IMAGES / TEXTURES
-		this.load.image("logo", "src/assets/png/ui/logo.png");
-		this.load.image("menuBG", "src/assets/png/ui/UIbg.png");
-		this.load.image("buttonLarge", "src/assets/png/ui/buttonLarge.png");
-		this.load.image("tapLeft", "src/assets/png/ui/tapLeft.png");
-		this.load.image("tapRight", "src/assets/png/ui/tapRight.png");
-		this.load.image("tap", "src/assets/png/ui/tap.png");
-		this.load.image("tapTick", "src/assets/png/ui/tapTick.png");
-		this.load.image("textGameOver", "src/assets/png/ui/textGameOver.png");
+		this.load.image("logo", logo);
+		this.load.image("menuBG", menuBG);
+		this.load.image("buttonLarge", buttonLarge);
+		this.load.image("tapLeft", tapLeft);
+		this.load.image("tapRight", tapRight);
+		this.load.image("tap", tap);
+		this.load.image("tapTick", tapTick);
+		this.load.image("textGameOver", textGameOver);
 
-		this.load.image("background", "src/assets/png/background.png");
-		this.load.image("puffLarge", "src/assets/png/puffLarge.png");
-		this.load.image("puffSmall", "src/assets/png/puffSmall.png");
+		this.load.image("background", background);
+		this.load.image("puffLarge", puffLarge);
+		this.load.image("puffSmall", puffSmall);
 
-		this.load.atlas("redPlane", "src/assets/spritesheet/redplane.png", "src/assets/spritesheet/redplane.json");
-		this.load.atlas("bluePlane", "src/assets/spritesheet/blueplane.png", "src/assets/spritesheet/blueplane.json");
-		this.load.atlas("greenPlane", "src/assets/spritesheet/greenplane.png", "src/assets/spritesheet/greenplane.json");
-		this.load.atlas("yellowPlane", "src/assets/spritesheet/yellowplane.png", "src/assets/spritesheet/yellowplane.json");
-		this.load.json("planes", "src/assets/pe/planes.json");
+		this.load.atlas("redPlane", redPlane, redPlaneJSON);
+		this.load.atlas("bluePlane", bluePlane, bluePlaneJSON);
+		this.load.atlas("greenPlane", greenPlane, greenPlaneJSON);
+		this.load.atlas("yellowPlane", yellowPlane, yellowPlaneJSON);
+		this.load.json("planes", planes);
 
-		this.load.image("dirtUp", "src/assets/png/rock.png");
-		this.load.image("dirtDown", "src/assets/png/rockDown.png");
-		this.load.image("grassUp", "src/assets/png/rockGrass.png");
-		this.load.image("grassDown", "src/assets/png/rockGrassDown.png");
-		this.load.image("iceUp", "src/assets/png/rockIce.png");
-		this.load.image("iceDown", "src/assets/png/rockIceDown.png");
-		this.load.image("snowUp", "src/assets/png/rockSnow.png");
-		this.load.image("snowDown", "src/assets/png/rockSnowDown.png");
-		this.load.json("rocks", "src/assets/pe/rocks.json");
+		this.load.image("dirtUp", dirtUp);
+		this.load.image("dirtDown", dirtDown);
+		this.load.image("grassUp", grassUp);
+		this.load.image("grassDown", grassDown);
+		this.load.image("iceUp", iceUp);
+		this.load.image("iceDown", iceDown);
+		this.load.image("snowUp", snowUp);
+		this.load.image("snowDown", snowDown);
+		this.load.json("rocks", rocks);
 
-		this.load.image("grounddirt", "src/assets/png/groundDirt.png");
-		this.load.image("groundgrass", "src/assets/png/groundGrass.png");
-		this.load.image("groundice", "src/assets/png/groundIce.png");
-		this.load.image("groundsnow", "src/assets/png/groundSnow.png");
-		this.load.image("groundrock", "src/assets/png/groundRock.png");
+		this.load.image("grounddirt", grounddirt);
+		this.load.image("groundgrass", groundgrass);
+		this.load.image("groundice", groundice);
+		this.load.image("groundsnow", groundsnow);
+		this.load.image("groundrock", groundrock);
 
 		//LOAD SOUNDS
-		this.load.audio("main", [
-			"src/assets/sounds/mp3/anachronist.mp3",
-			"src/assets/sounds/ogg/anachronist.ogg",
-		]);
-		this.load.audio("die", [
-			"src/assets/sounds/mp3/die.mp3",
-			"src/assets/sounds/ogg/die.ogg",
-		]);
-		this.load.audio("hit", [
-			"src/assets/sounds/mp3/hit.mp3",
-			"src/assets/sounds/ogg/hit.ogg",
-		]);
-		this.load.audio("point", [
-			"src/assets/sounds/mp3/point.mp3",
-			"src/assets/sounds/ogg/point.ogg",
-		]);
-		this.load.audio("swooshing", [
-			"src/assets/sounds/mp3/swooshing.mp3",
-			"src/assets/sounds/ogg/swooshing.ogg",
-		]);
-		this.load.audio("wing", [
-			"src/assets/sounds/mp3/wing.mp3",
-			"src/assets/sounds/ogg/wing.ogg",
-		]);
+		this.load.audio("main", [main,mainogg]);
+		this.load.audio("die", [die,dieogg]);
+		this.load.audio("hit", [hit,hitogg]);
+		this.load.audio("point", [point,pointogg]);
+		this.load.audio("swooshing", [swooshing,swooshingogg]);
+		this.load.audio("wing", [wing,wingogg]);
 	}
 
 	create(){

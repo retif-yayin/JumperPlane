@@ -1,10 +1,10 @@
 import Phaser from "phaser";
 import gameOptions from "./gameOptions.js";
-import bootGame from "./bootGame.js"
-import credits from "./credits.js"
-import mainMenu from "./mainMenu.js"
-import options from "./options.js"
-import playGame from "./playGame.js"
+import bootGame from "./bootGame.js";
+import credits from "./credits.js";
+import mainMenu from "./mainMenu.js";
+import options from "./options.js";
+import playGame from "./playGame.js";
 
 const game = new Phaser.Game({
 	title: "JumperPlane",
@@ -26,3 +26,4 @@ const game = new Phaser.Game({
 		}
 	}
 });
+
