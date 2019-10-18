@@ -6,7 +6,7 @@ class mainMenu extends Phaser.Scene{
 
 	create(){
 		this.swooshing = this.sound.add("swooshing");
-		this.musicOption = localStorage.getItem(gameOptions.music) || true;
+		this.musicOption = localStorage.getItem(gameOptions.music) || "true";
 		this.mainMusic = this.sound.add("main");
 		if(this.musicOption === "true"){
 			this.mainMusic.play();
@@ -16,22 +16,12 @@ class mainMenu extends Phaser.Scene{
 
 		this.generatePlaneAnims();
 
-		var titleTxt = this.add.text(gameOptions.width/2 - 600, gameOptions.height/2-420, "JUMPER PLANE", {
-			fontFamily: 'font1',
-			fontSize: 204,
-			stroke: '#000',
-			strokeThickness: 1,
-			shadow: {
-				offsetY:5,
-				blur: 5,
-				stroke: true
-			}
-		});
+		var logo = this.add.image(gameOptions.width/2, gameOptions.height/2-320, "logo").setScale(0.6);
 
-		var versionTxt = this.add.text(gameOptions.width/2 + 210, gameOptions.height/2-240, "CURRENT VERSION 0.9", {
+		var versionTxt = this.add.text(gameOptions.width/2 + 250, gameOptions.height/2-240, "CURRENT VERSION 0.9", {
 			fontFamily: 'font1',
 			color: '#ff4c4c',
-			fontSize: 44,
+			fontSize: 38,
 		});
 		versionTxt.alpha = 0.8;
 

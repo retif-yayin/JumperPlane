@@ -19,7 +19,11 @@ body{
 }
 
 #fps{
-	font-size: 30px;
+	background: rgba(0,0,0,.4);
+	padding: 0px 12px;
+	font-size: 16px;
+	color: #be0027;
+	font-family: font1;
 	position: absolute;
 	z-index: 99999;
 	top: 0;

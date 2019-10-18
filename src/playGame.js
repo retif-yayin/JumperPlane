@@ -378,6 +378,7 @@ class playGame extends Phaser.Scene{
 			stroke: '#000',
 			strokeThickness: 1,
 		};
+		
 		//Restart Button
 		var restartBg 	= this.add.image(0, 0, "buttonLarge");
 		var restartTxt 	= this.add.text(-120, -44, "RESTART", fontStyles);
@@ -412,7 +413,7 @@ class playGame extends Phaser.Scene{
 		this.delta = delta;
 		
 		if(this.isRunning){
-			Phaser.Physics.Matter.Matter.Engine.update(this.matter.world.engine, delta);
+			Phaser.Physics.Matter.Matter.Engine.update(this.matter.world.engine);
 			this.handlePlaneRotation();
 			this.backgroundLoop(delta);
 			this.cloudLoop(delta);

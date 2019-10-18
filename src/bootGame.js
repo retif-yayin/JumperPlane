@@ -6,6 +6,7 @@ class bootGame extends Phaser.Scene{
 
 	preload(){
 		//LOAD IMAGES / TEXTURES
+		this.load.image("logo", "assets/png/ui/logo.png");
 		this.load.image("menuBG", "assets/png/ui/UIbg.png");
 		this.load.image("buttonLarge", "assets/png/ui/buttonLarge.png");
 		this.load.image("tapLeft", "assets/png/ui/tapLeft.png");

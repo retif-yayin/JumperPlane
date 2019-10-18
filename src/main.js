@@ -11,6 +11,7 @@ var game;
 window.onload = function(){
 	//DEFINE GAME START POINT
 	game = new Phaser.Game({
+		title: "JumperPlane",
 		type: Phaser.CANVAS,
 		width: gameOptions.width,
 		height: gameOptions.height,
@@ -31,7 +32,7 @@ window.onload = function(){
 	});
 
 	setInterval(function(){
-		document.getElementById("fps").innerHTML = game.loop.actualFps.toString();
+		document.getElementById("fps").innerHTML = "FPS: "+Math.floor(game.loop.actualFps.toString());
 	}, 100);
 	
 
