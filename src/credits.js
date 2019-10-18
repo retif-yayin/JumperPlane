@@ -10,6 +10,7 @@ class credits extends Phaser.Scene{
 		this.mainMusic.stop();
 
 		var background = this.add.image(0,0,"background").setOrigin(0,0);
+		this.add.image(background.width,0,"background").setOrigin(0,0);
 
 		var logo = this.add.image(gameOptions.width/2, gameOptions.height/2-320, "logo").setScale(0.6);
 

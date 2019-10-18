@@ -7,6 +7,7 @@ class mainMenu extends Phaser.Scene{
 	create(){
 		this.swooshing = this.sound.add("swooshing");
 		var background = this.add.image(0,0,"background").setOrigin(0,0);
+		this.add.image(background.width,0,"background").setOrigin(0,0);
 
 		this.generatePlaneAnims();
 

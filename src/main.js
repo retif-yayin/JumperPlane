@@ -1,7 +1,6 @@
 //GAME OPTIONS
 var gameOptions = {
-	//width:1000*(window.innerWidth/window.innerHeight),
-	width:1600,
+	width:960*(window.innerWidth/window.innerHeight),
 	height:960,
 	dataName: "JumperPlaneScore",
 	music: "JumperPlaneMusic",

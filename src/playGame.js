@@ -135,7 +135,7 @@ class playGame extends Phaser.Scene{
 		this.backgroundPool = [];
 
 		for(var i=0; i<5; i++){
-			var background = this.add.image(i*gameOptions.width,0,"background").setOrigin(0,0);
+			var background = this.add.image(i*1600,0,"background").setOrigin(0,0);
 			background.order = i;
 			this.backgroundPool.push(background);
 		}
@@ -148,7 +148,7 @@ class playGame extends Phaser.Scene{
 		//Largest: 775, 150
 		for(var i=0; i<8; i++){
 			var isLarge = Math.round(Math.random());
-			var xLocation = (Math.random()*1550)+50;
+			var xLocation = (Math.random()*(gameOptions.width-50))+50;
 			var yLocation = (Math.random()*250)+50;
 			if(isLarge){
 				var cloud = this.add.image(xLocation,yLocation,"puffLarge");
@@ -297,7 +297,7 @@ class playGame extends Phaser.Scene{
 			background.x -= (this.gameSpeed*delta/1000)/5;
 			if(background.x < -gameOptions.width){
 				var lastBackgroundLocation = Math.max.apply(Math, this.backgroundPool.map(function(o) { return o.x; }));
-				background.x = lastBackgroundLocation+800;
+				background.x = lastBackgroundLocation+1600;
 				if(background.order == 0){
 					background.x -= (this.gameSpeed*delta/1000)/5;
 				}
@@ -418,7 +418,7 @@ class playGame extends Phaser.Scene{
 		this.delta = delta;
 		
 		if(this.isRunning){
-			Phaser.Physics.Matter.Matter.Engine.update(this.matter.world.engine);
+			Phaser.Physics.Matter.Matter.Engine.update(this.matter.world.engine, delta);
 			this.handlePlaneRotation();
 			this.backgroundLoop(delta);
 			this.cloudLoop(delta);
