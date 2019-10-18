@@ -32,9 +32,9 @@ window.onload = function(){
 		}
 	});
 
-	setInterval(function(){
-		document.getElementById("fps").innerHTML = "FPS: "+Math.floor(game.loop.actualFps.toString());
-	}, 100);
+	// setInterval(function(){
+	// 	document.getElementById("fps").innerHTML = "FPS: "+Math.floor(game.loop.actualFps.toString());
+	// }, 100);
 	
 
 	window.focus();

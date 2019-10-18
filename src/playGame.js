@@ -9,6 +9,7 @@ class playGame extends Phaser.Scene{
 
 		this.highScore = localStorage.getItem(gameOptions.dataName);
 		this.isRunning = false;
+		this.isPhysicsRunning = false;
 		this.firstStart = true;
 		this.matter.world.pause();
 		this.gameSpeed = 240;
@@ -95,6 +96,7 @@ class playGame extends Phaser.Scene{
 		if(this.firstStart){
 			this.matter.world.resume();
 			this.isRunning = true;
+			this.isPhysicsRunning = true;
 			this.firstStart = false;
 			this.jumpPlane();
 			this.increaseSpeedTimer.paused = false;
@@ -202,6 +204,7 @@ class playGame extends Phaser.Scene{
 			shape: this.planesJson.red1,
 			angle: 0,
 		});
+		this.plane.setBounce(0);
 
 		var frameNames = this.anims.generateFrameNames(sprite, {
 			start:1, end:3, prefix: Fprefix, suffix: '.png'
@@ -347,9 +350,9 @@ class playGame extends Phaser.Scene{
 
 	gameOver(){
 		this.isRunning = false;
-		this.matter.world.pause();
 		this.hit.play();
 		this.plane.anims.stop();
+		this.plane.setCollidesWith(0);
 		//this.die.play();
 
 		var overlay = this.add.rectangle(0,0,gameOptions.width, gameOptions.height, 0x000000, 0.5).setOrigin(0,0);
@@ -416,10 +419,16 @@ class playGame extends Phaser.Scene{
 
 	update(time, delta){
 		this.delta = delta;
-		
-		if(this.isRunning){
+
+		if(this.isPhysicsRunning){
 			Phaser.Physics.Matter.Matter.Engine.update(this.matter.world.engine, delta);
 			this.handlePlaneRotation();
+			if(this.plane.y > 1100){
+				this.isPhysicsRunning = false;
+			}
+		}
+		
+		if(this.isRunning){
 			this.backgroundLoop(delta);
 			this.cloudLoop(delta);
 			this.groundLoop(delta);

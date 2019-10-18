@@ -34,11 +34,33 @@ class credits extends Phaser.Scene{
 		this.backBtn = this.add.container(0, 0, [backBg, backTxt]);
 		this.backBtn.x = gameOptions.width/2;
 		this.backBtn.y = gameOptions.height/2+260;
+		this.backBtn.depth = 9999;
 		this.backBtn.setSize(390, 139);
 		this.backBtn.setInteractive();
 		this.backBtn.on("pointerup", () => {
 			this.swooshing.play();
 			this.scene.start("MainMenu");
+		});
+
+
+
+		//Credits Texts
+		var graphicsTxt = this.add.text(gameOptions.width/2-280, gameOptions.height/2-150, 
+			"Game Graphics\nhttps://kenney.nl/assets/tappy-plane", 
+			{
+			fontFamily: 'font1',
+			color: '#666',
+			fontSize: 38,
+			align: 'center',
+		});
+
+		var musicTxt = this.add.text(gameOptions.width/2-450, gameOptions.height/2, 
+			"Music: Anachronist Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 3.0 License\nhttp://creativecommons.org/licenses/by/3.0/", 
+			{
+			fontFamily: 'font1',
+			color: '#666',
+			fontSize: 38,
+			align: 'center',
 		});
 	}
 
