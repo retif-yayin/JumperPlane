@@ -8,7 +8,7 @@ import playGame from "./playGame.js";
 
 const game = new Phaser.Game({
 	title: "JumperPlane",
-	type: Phaser.CANVAS,
+	type: Phaser.AUTO,
 	width: gameOptions.width,
 	height: gameOptions.height,
 	backgroundColor: 0xd5edf7,
