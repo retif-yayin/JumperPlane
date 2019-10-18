@@ -1,55 +1,55 @@
-[![MIT License][license-shield]][license-url]
-[![Discord][discord-shield]][discord-url]
+# Phaser 3 Webpack Project Template
 
-<br />
-<p align="center">
-  <a href="https://github.com/retif-yayin">
-    <img src="https://avatars3.githubusercontent.com/u/55927462?s=200&v=4" alt="Logo" width="80" height="80">
-  </a>
+A Phaser 3 project template with ES6 support via [Babel 7](https://babeljs.io/) and [Webpack 4](https://webpack.js.org/)
+that includes hot-reloading for development and production-ready builds.
 
-  <h3 align="center">Jumper Plane</h3>
-  
-  <p align="center">
-  <img src="http://retif-yayin.github.io/JumperPlane/assets/screenshot.png" width="400">
-  </p>
+Loading images via JavaScript module `import` is also supported.
 
-  <p align="center">
-    FlappyBird like jumping planes game. This is just for example purpose and you can use it anyway you want!
-    <br />
-    <br />
-    <a href="https://retif-yayin.github.io/JumperPlane/"><strong>Play Game »</strong></a>
-    <br />
-  </p>
-</p>
+## Requirements
 
+[Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
 
-## Used Technologies
+## Available Commands
 
-* JavaScript
-* Phaser
+| Command | Description |
+|---------|-------------|
+| `npm install` | Install project dependencies |
+| `npm start` | Build project and open web server running project |
+| `npm run build` | Builds code bundle with production settings (minification, uglification, etc..) |
+
+## Writing Code
+
+After cloning the repo, run `npm install` from your project directory. Then, you can start the local development
+server by running `npm start`.
 
 
-## Running on Local
+After starting the development server with `npm start`, you can edit any files in the `src` folder
+and webpack will automatically recompile and reload your server (available at `http://localhost:8080`
+by default).
 
-To run these games on your local you need local web server on your computer. If you double-click to index.html it will probably open with errors.
+## Customizing Template
 
-## Resources
-**Graphics:**<br />
-https://kenney.nl/assets/tappy-plane
+### Babel
+You can write modern ES6+ JavaScript and Babel will transpile it to a version of JavaScript that you
+want your project to support. The targeted browsers are set in the `.babelrc` file and the default currently
+targets all browsers with total usage over "0.25%" but excludes IE11 and Opera Mini.
 
-**Main Music:**<br />
-https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100332<br />
-Anachronist Kevin MacLeod (incompetech.com)<br />
-Licensed under Creative Commons: By Attribution 3.0 License<br />
-http://creativecommons.org/licenses/by/3.0/<br />
+  ```
+  "browsers": [
+    ">0.25%",
+    "not ie 11",
+    "not op_mini all"
+  ]
+  ```
 
+### Webpack
+If you want to customize your build, such as adding a new webpack loader or plugin (i.e. for loading CSS or fonts), you can
+modify the `webpack/base.js` file for cross-project changes, or you can modify and/or create
+new configuration files and target them in specific npm tasks inside of `package.json'.
 
+## Deploying Code
+After you run the `npm run build` command, your code will be built into a single bundle located at 
+`dist/bundle.min.js` along with any other assets you project depended. 
 
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=flat-square
-[license-url]: https://choosealicense.com/licenses/mit/
-[discord-shield]: https://img.shields.io/discord/615261354365812747?label=discord&style=flat-square
-[discord-url]: https://discord.gg/tmDhg32
+If you put the contents of the `dist` folder in a publicly-accessible location (say something like `http://mycoolserver.com`), 
+you should be able to open `http://mycoolserver.com/index.html` and play your game.

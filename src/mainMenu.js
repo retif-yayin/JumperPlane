@@ -1,4 +1,6 @@
-class mainMenu extends Phaser.Scene{
+import gameOptions from "./gameOptions.js";
+
+export default class mainMenu extends Phaser.Scene{
 
 	constructor(){
 		super("MainMenu");

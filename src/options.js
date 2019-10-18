@@ -1,4 +1,6 @@
-class options extends Phaser.Scene{
+import gameOptions from "./gameOptions.js";
+
+export default class options extends Phaser.Scene{
 
 	constructor(){
 		super("Options");

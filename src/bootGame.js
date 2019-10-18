@@ -1,4 +1,6 @@
-class bootGame extends Phaser.Scene{
+import gameOptions from "./gameOptions.js";
+
+export default class bootGame extends Phaser.Scene{
 
 	constructor(){
 		super("BootGame");
@@ -6,65 +8,65 @@ class bootGame extends Phaser.Scene{
 
 	preload(){
 		//LOAD IMAGES / TEXTURES
-		this.load.image("logo", "assets/png/ui/logo.png");
-		this.load.image("menuBG", "assets/png/ui/UIbg.png");
-		this.load.image("buttonLarge", "assets/png/ui/buttonLarge.png");
-		this.load.image("tapLeft", "assets/png/ui/tapLeft.png");
-		this.load.image("tapRight", "assets/png/ui/tapRight.png");
-		this.load.image("tap", "assets/png/ui/tap.png");
-		this.load.image("tapTick", "assets/png/ui/tapTick.png");
-		this.load.image("textGameOver", "assets/png/ui/textGameOver.png");
+		this.load.image("logo", "src/assets/png/ui/logo.png");
+		this.load.image("menuBG", "src/assets/png/ui/UIbg.png");
+		this.load.image("buttonLarge", "src/assets/png/ui/buttonLarge.png");
+		this.load.image("tapLeft", "src/assets/png/ui/tapLeft.png");
+		this.load.image("tapRight", "src/assets/png/ui/tapRight.png");
+		this.load.image("tap", "src/assets/png/ui/tap.png");
+		this.load.image("tapTick", "src/assets/png/ui/tapTick.png");
+		this.load.image("textGameOver", "src/assets/png/ui/textGameOver.png");
 
-		this.load.image("background", "assets/png/background.png");
-		this.load.image("puffLarge", "assets/png/puffLarge.png");
-		this.load.image("puffSmall", "assets/png/puffSmall.png");
+		this.load.image("background", "src/assets/png/background.png");
+		this.load.image("puffLarge", "src/assets/png/puffLarge.png");
+		this.load.image("puffSmall", "src/assets/png/puffSmall.png");
 
-		this.load.atlas("redPlane", "assets/spritesheet/redplane.png", "assets/spritesheet/redplane.json");
-		this.load.atlas("bluePlane", "assets/spritesheet/blueplane.png", "assets/spritesheet/blueplane.json");
-		this.load.atlas("greenPlane", "assets/spritesheet/greenplane.png", "assets/spritesheet/greenplane.json");
-		this.load.atlas("yellowPlane", "assets/spritesheet/yellowplane.png", "assets/spritesheet/yellowplane.json");
-		this.load.json("planes", "assets/pe/planes.json");
+		this.load.atlas("redPlane", "src/assets/spritesheet/redplane.png", "src/assets/spritesheet/redplane.json");
+		this.load.atlas("bluePlane", "src/assets/spritesheet/blueplane.png", "src/assets/spritesheet/blueplane.json");
+		this.load.atlas("greenPlane", "src/assets/spritesheet/greenplane.png", "src/assets/spritesheet/greenplane.json");
+		this.load.atlas("yellowPlane", "src/assets/spritesheet/yellowplane.png", "src/assets/spritesheet/yellowplane.json");
+		this.load.json("planes", "src/assets/pe/planes.json");
 
-		this.load.image("dirtUp", "assets/png/rock.png");
-		this.load.image("dirtDown", "assets/png/rockDown.png");
-		this.load.image("grassUp", "assets/png/rockGrass.png");
-		this.load.image("grassDown", "assets/png/rockGrassDown.png");
-		this.load.image("iceUp", "assets/png/rockIce.png");
-		this.load.image("iceDown", "assets/png/rockIceDown.png");
-		this.load.image("snowUp", "assets/png/rockSnow.png");
-		this.load.image("snowDown", "assets/png/rockSnowDown.png");
-		this.load.json("rocks", "assets/pe/rocks.json");
+		this.load.image("dirtUp", "src/assets/png/rock.png");
+		this.load.image("dirtDown", "src/assets/png/rockDown.png");
+		this.load.image("grassUp", "src/assets/png/rockGrass.png");
+		this.load.image("grassDown", "src/assets/png/rockGrassDown.png");
+		this.load.image("iceUp", "src/assets/png/rockIce.png");
+		this.load.image("iceDown", "src/assets/png/rockIceDown.png");
+		this.load.image("snowUp", "src/assets/png/rockSnow.png");
+		this.load.image("snowDown", "src/assets/png/rockSnowDown.png");
+		this.load.json("rocks", "src/assets/pe/rocks.json");
 
-		this.load.image("grounddirt", "assets/png/groundDirt.png");
-		this.load.image("groundgrass", "assets/png/groundGrass.png");
-		this.load.image("groundice", "assets/png/groundIce.png");
-		this.load.image("groundsnow", "assets/png/groundSnow.png");
-		this.load.image("groundrock", "assets/png/groundRock.png");
+		this.load.image("grounddirt", "src/assets/png/groundDirt.png");
+		this.load.image("groundgrass", "src/assets/png/groundGrass.png");
+		this.load.image("groundice", "src/assets/png/groundIce.png");
+		this.load.image("groundsnow", "src/assets/png/groundSnow.png");
+		this.load.image("groundrock", "src/assets/png/groundRock.png");
 
 		//LOAD SOUNDS
 		this.load.audio("main", [
-			"assets/sounds/mp3/anachronist.mp3",
-			"assets/sounds/ogg/anachronist.ogg",
+			"src/assets/sounds/mp3/anachronist.mp3",
+			"src/assets/sounds/ogg/anachronist.ogg",
 		]);
 		this.load.audio("die", [
-			"assets/sounds/mp3/die.mp3",
-			"assets/sounds/ogg/die.ogg",
+			"src/assets/sounds/mp3/die.mp3",
+			"src/assets/sounds/ogg/die.ogg",
 		]);
 		this.load.audio("hit", [
-			"assets/sounds/mp3/hit.mp3",
-			"assets/sounds/ogg/hit.ogg",
+			"src/assets/sounds/mp3/hit.mp3",
+			"src/assets/sounds/ogg/hit.ogg",
 		]);
 		this.load.audio("point", [
-			"assets/sounds/mp3/point.mp3",
-			"assets/sounds/ogg/point.ogg",
+			"src/assets/sounds/mp3/point.mp3",
+			"src/assets/sounds/ogg/point.ogg",
 		]);
 		this.load.audio("swooshing", [
-			"assets/sounds/mp3/swooshing.mp3",
-			"assets/sounds/ogg/swooshing.ogg",
+			"src/assets/sounds/mp3/swooshing.mp3",
+			"src/assets/sounds/ogg/swooshing.ogg",
 		]);
 		this.load.audio("wing", [
-			"assets/sounds/mp3/wing.mp3",
-			"assets/sounds/ogg/wing.ogg",
+			"src/assets/sounds/mp3/wing.mp3",
+			"src/assets/sounds/ogg/wing.ogg",
 		]);
 	}
 

@@ -1,4 +1,6 @@
-class credits extends Phaser.Scene{
+import gameOptions from "./gameOptions.js";
+
+export default class credits extends Phaser.Scene{
 
 	constructor(){
 		super("Credits");

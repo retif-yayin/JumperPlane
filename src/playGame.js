@@ -1,4 +1,6 @@
-class playGame extends Phaser.Scene{
+import gameOptions from "./gameOptions.js";
+
+export default class playGame extends Phaser.Scene{
 
 	constructor(){
 		super("PlayGame");
