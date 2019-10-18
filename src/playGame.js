@@ -5,6 +5,8 @@ class playGame extends Phaser.Scene{
 	}
 
 	create(){
+		gameOptions.mainMusic.stop();
+
 		this.highScore = localStorage.getItem(gameOptions.dataName);
 		this.isRunning = false;
 		this.firstStart = true;
@@ -402,6 +404,9 @@ class playGame extends Phaser.Scene{
 		this.mainmenuBtn.setInteractive();
 		this.mainmenuBtn.on("pointerup", () => {
 			this.swooshing.play();
+			if(gameOptions.musicOption === "true"){
+				gameOptions.mainMusic.play();
+			}
 			this.scene.start("MainMenu");
 		});
 

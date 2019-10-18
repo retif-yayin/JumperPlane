@@ -11,22 +11,12 @@ class credits extends Phaser.Scene{
 
 		var background = this.add.image(0,0,"background").setOrigin(0,0);
 
-		var titleTxt = this.add.text(gameOptions.width/2 - 600, gameOptions.height/2-420, "JUMPER PLANE", {
-			fontFamily: 'font1',
-			fontSize: 204,
-			stroke: '#000',
-			strokeThickness: 1,
-			shadow: {
-				offsetY:5,
-				blur: 5,
-				stroke: true
-			}
-		});
+		var logo = this.add.image(gameOptions.width/2, gameOptions.height/2-320, "logo").setScale(0.6);
 
-		var versionTxt = this.add.text(gameOptions.width/2 + 210, gameOptions.height/2-240, "CURRENT VERSION 0.9", {
+		var versionTxt = this.add.text(gameOptions.width/2 + 250, gameOptions.height/2-240, "CURRENT VERSION 1.0", {
 			fontFamily: 'font1',
 			color: '#ff4c4c',
-			fontSize: 44,
+			fontSize: 38,
 		});
 		versionTxt.alpha = 0.8;
 

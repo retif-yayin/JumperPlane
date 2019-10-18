@@ -6,19 +6,13 @@ class mainMenu extends Phaser.Scene{
 
 	create(){
 		this.swooshing = this.sound.add("swooshing");
-		this.musicOption = localStorage.getItem(gameOptions.music) || "true";
-		this.mainMusic = this.sound.add("main");
-		if(this.musicOption === "true"){
-			this.mainMusic.play();
-			this.mainMusic.setLoop(true);
-		}
 		var background = this.add.image(0,0,"background").setOrigin(0,0);
 
 		this.generatePlaneAnims();
 
 		var logo = this.add.image(gameOptions.width/2, gameOptions.height/2-320, "logo").setScale(0.6);
 
-		var versionTxt = this.add.text(gameOptions.width/2 + 250, gameOptions.height/2-240, "CURRENT VERSION 0.9", {
+		var versionTxt = this.add.text(gameOptions.width/2 + 250, gameOptions.height/2-240, "CURRENT VERSION 1.0", {
 			fontFamily: 'font1',
 			color: '#ff4c4c',
 			fontSize: 38,
@@ -44,10 +38,6 @@ class mainMenu extends Phaser.Scene{
 		this.playBtn.setInteractive();
 		this.playBtn.on("pointerup", () => {
 			this.swooshing.play();
-			if(this.musicOption === "true"){
-				this.mainMusic.setLoop(false);
-				this.mainMusic.stop();
-			}
 			this.scene.start("PlayGame");
 		});
 
@@ -61,10 +51,6 @@ class mainMenu extends Phaser.Scene{
 		this.optionsBtn.setInteractive();
 		this.optionsBtn.on("pointerup", () => {
 			this.swooshing.play();
-			if(this.musicOption === "true"){
-				this.mainMusic.setLoop(false);
-				this.mainMusic.stop();
-			}
 			this.scene.start("Options");
 		});
 
@@ -78,11 +64,20 @@ class mainMenu extends Phaser.Scene{
 		this.creditsBtn.setInteractive();
 		this.creditsBtn.on("pointerup", () => {
 			this.swooshing.play();
-			if(this.musicOption === "true"){
-				this.mainMusic.setLoop(false);
-				this.mainMusic.stop();
-			}
 			this.scene.start("Credits");
+		});
+
+		//Small credits text
+		var versionTxt = this.add.text(100, gameOptions.height-70, "Wpati Games", {
+			fontFamily: 'font1',
+			color: '#8a7967',
+			fontSize: 28,
+		});
+
+		var versionTxt = this.add.text(gameOptions.width-300, gameOptions.height-70, "made while streaming", {
+			fontFamily: 'font1',
+			color: '#8a7967',
+			fontSize: 28,
 		});
 	}
 

@@ -70,6 +70,12 @@ class bootGame extends Phaser.Scene{
 
 	create(){
 		//After everything loaded, switch to menu scene
+		gameOptions.mainMusic = this.sound.add("main");
+		if(gameOptions.musicOption === "true"){
+			gameOptions.mainMusic.play();
+			gameOptions.mainMusic.setLoop(true);
+		}
+
 		this.scene.start("MainMenu");
 	}
 

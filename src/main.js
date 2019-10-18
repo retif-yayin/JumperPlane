@@ -1,9 +1,11 @@
 //GAME OPTIONS
 var gameOptions = {
+	//width:1000*(window.innerWidth/window.innerHeight),
 	width:1600,
 	height:960,
 	dataName: "JumperPlaneScore",
-	music: "JumperPlaneMusic"
+	music: "JumperPlaneMusic",
+	musicOption: localStorage.getItem("JumperPlaneMusic") || "true",
 };
 
 var game;
@@ -19,7 +21,7 @@ window.onload = function(){
 		scene: [bootGame, mainMenu, options, credits, playGame],
 		scale: {
 			mode: Phaser.Scale.FIT,
-			autoCenter: Phaser.Scale.CENTER_BOTH,
+			autoCenter: Phaser.Scale.NO_CENTER,
 		},
 		physics: {
 			default: "matter",
