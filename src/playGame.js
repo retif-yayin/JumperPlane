@@ -168,7 +168,7 @@ export default class playGame extends Phaser.Scene{
 		this.groundPool = [];
 
 		for(var i=0; i<3; i++){
-			var ground = this.add.image(gameOptions.width/2+(i*1600),888,"grounddirt");	
+			var ground = this.add.image(i*1600,888,"grounddirt").setOrigin(0,0.5);	
 			
 			ground.order = i;
 			ground.alpha = 0.5;
@@ -313,7 +313,7 @@ export default class playGame extends Phaser.Scene{
 	groundLoop(delta){
 		this.groundPool.forEach(function(ground){
 			ground.x -= (this.gameSpeed*delta/1000)/2;
-			if(ground.x < -gameOptions.width/2){
+			if(ground.x < -1600){
 				var lastGroundLocation = Math.max.apply(Math, this.groundPool.map(function(o) { return o.x; }));
 				ground.x = lastGroundLocation+ground.width;
 				if(ground.order == 0){
@@ -391,10 +391,13 @@ export default class playGame extends Phaser.Scene{
 		var restartTxt 	= this.add.text(-120, -44, "RESTART", fontStyles);
 		this.restartBtn = this.add.container(0, 0, [restartBg, restartTxt]);
 		this.restartBtn.x = gameOptions.width/2;
-		this.restartBtn.y = gameOptions.height/2+100;
+		this.restartBtn.y = gameOptions.height/2+260;
 		this.restartBtn.setSize(390, 139);
 		this.restartBtn.setInteractive();
 		this.restartBtn.on("pointerup", function(){
+			if(typeof admob !== "undefined"){
+				admob.destroyBannerView();
+			}
 			this.swooshing.play();
 			this.scene.restart();
 		}.bind(this));
@@ -404,10 +407,13 @@ export default class playGame extends Phaser.Scene{
 		var mainmenuTxt = this.add.text(-152, -44, "MAIN MENU", fontStyles);
 		this.mainmenuBtn = this.add.container(0, 0, [mainmenuBg, mainmenuTxt]);
 		this.mainmenuBtn.x = gameOptions.width/2;
-		this.mainmenuBtn.y = gameOptions.height/2+260;
+		this.mainmenuBtn.y = gameOptions.height/2+100;
 		this.mainmenuBtn.setSize(390, 139);
 		this.mainmenuBtn.setInteractive();
 		this.mainmenuBtn.on("pointerup", () => {
+			if(typeof admob !== "undefined"){
+				admob.destroyBannerView();
+			}
 			this.swooshing.play();
 			if(gameOptions.musicOption === "true"){
 				gameOptions.mainMusic.play();
@@ -417,6 +423,10 @@ export default class playGame extends Phaser.Scene{
 
 		//GameOver Text
 		this.add.image(gameOptions.width/2, gameOptions.height/2-230, "textGameOver").setScale(0.8);
+
+		if(typeof admob !== "undefined"){
+			admob.createBannerView({publisherId: "", overlap: true});
+		}
 	}
 
 	update(time, delta){

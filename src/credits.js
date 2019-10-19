@@ -64,6 +64,7 @@ export default class credits extends Phaser.Scene{
 			fontSize: 38,
 			align: 'center',
 		});
+
 	}
 
 }
